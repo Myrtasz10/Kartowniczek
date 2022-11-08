@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +11,7 @@ import './stats.dart';
 class GameScreen extends StatefulWidget {
   final List<String> data;
 
-  GameScreen({
+  const GameScreen({
     Key key,
     @required this.data,
   }) : super(key: key);
@@ -20,14 +21,14 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  AppSettings settings = new AppSettings();
+  AppSettings settings = AppSettings();
 
   showSnackBar(String popText) {
-    final snackBar = new SnackBar(
-      content: new Text(popText),
-      duration: new Duration(seconds: 3),
+    final snackBar = SnackBar(
+      content: Text(popText),
+      duration: const Duration(seconds: 3),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
@@ -46,10 +47,10 @@ class _GameScreenState extends State<GameScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Wyjść bez zapisywania?'),
+            title: const Text('Wyjść bez zapisywania?'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget> [Text(
+              children: <Widget> [const Text(
                 'Dane gry zostaną utracone, jeśli nie zostały wcześniej zapisane.'),
             Container(height: 10),
             Row(
@@ -58,7 +59,7 @@ class _GameScreenState extends State<GameScreen> {
                 children: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text('Nie'),
+                child: const Text('Nie'),
               ),
               TextButton(
                 onPressed: () {
@@ -68,11 +69,11 @@ class _GameScreenState extends State<GameScreen> {
                     showSnackBar("Brak danych do zapisania");
                   }
                 },
-                child: Text('Zapisz i wyjdź'),
+                child: const Text('Zapisz i wyjdź'),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text('Tak'),
+                child: const Text('Tak'),
               ),
             ])],
           )),
@@ -140,7 +141,7 @@ class _GameScreenState extends State<GameScreen> {
 
   List<int> playerGiveRemaining;
   List<int> playerGiveHistory = [];
-  List<Widget> rounds = [Container(height: 0, width: 0)];
+  List<Widget> rounds = [const SizedBox(height: 0, width: 0)];
   int roundsCompleting = 1;
   String playerOneAdd = "";
   String playerTwoAdd = "";
@@ -178,59 +179,59 @@ class _GameScreenState extends State<GameScreen> {
                 children: <Widget>[
                   RawMaterialButton(
                     fillColor: Colors.green,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       print(selected);
                       selected = 1;
                       Navigator.pop(context);
                       _showSavePrompt();
                     },
+                    shape: const CircleBorder(),
                     child: selected == 1
-                        ? Icon(Icons.check, size: 40)
-                        : Container(height: 40, width: 40),
-                    shape: CircleBorder(),
+                        ? const Icon(Icons.check, size: 40)
+                        : const SizedBox(height: 40, width: 40),
                   ),
                   RawMaterialButton(
                     fillColor: Colors.blue,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       print(selected);
                       selected = 2;
                       Navigator.pop(context);
                       _showSavePrompt();
                     },
+                    shape: const CircleBorder(),
                     child: selected == 2
-                        ? Icon(Icons.check, size: 40)
-                        : Container(height: 40, width: 40),
-                    shape: CircleBorder(),
+                        ? const Icon(Icons.check, size: 40)
+                        : const SizedBox(height: 40, width: 40),
                   ),
                   RawMaterialButton(
                     fillColor: Colors.purple,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       print(selected);
                       selected = 3;
                       Navigator.pop(context);
                       _showSavePrompt();
                     },
+                    shape: const CircleBorder(),
                     child: selected == 3
-                        ? Icon(Icons.check, size: 40)
-                        : Container(height: 40, width: 40),
-                    shape: CircleBorder(),
+                        ? const Icon(Icons.check, size: 40)
+                        : const SizedBox(height: 40, width: 40),
                   ),
                   RawMaterialButton(
                     fillColor: Colors.pink,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       print(selected);
                       selected = 4;
                       Navigator.pop(context);
                       _showSavePrompt();
                     },
+                    shape: const CircleBorder(),
                     child: selected == 4
-                        ? Icon(Icons.check, size: 40)
-                        : Container(height: 40, width: 40),
-                    shape: CircleBorder(),
+                        ? const Icon(Icons.check, size: 40)
+                        : const SizedBox(height: 40, width: 40),
                   ),
                 ],
               ),
@@ -239,59 +240,59 @@ class _GameScreenState extends State<GameScreen> {
                 children: <Widget>[
                   RawMaterialButton(
                     fillColor: Colors.yellow,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       print(selected);
                       selected = 5;
                       Navigator.pop(context);
                       _showSavePrompt();
                     },
+                    shape: const CircleBorder(),
                     child: selected == 5
-                        ? Icon(Icons.check, size: 40)
-                        : Container(height: 40, width: 40),
-                    shape: CircleBorder(),
+                        ? const Icon(Icons.check, size: 40)
+                        : const SizedBox(height: 40, width: 40),
                   ),
                   RawMaterialButton(
                     fillColor: Colors.red,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       print(selected);
                       selected = 6;
                       Navigator.pop(context);
                       _showSavePrompt();
                     },
+                    shape: const CircleBorder(),
                     child: selected == 6
-                        ? Icon(Icons.check, size: 40)
-                        : Container(height: 40, width: 40),
-                    shape: CircleBorder(),
+                        ? const Icon(Icons.check, size: 40)
+                        : const SizedBox(height: 40, width: 40),
                   ),
                   RawMaterialButton(
                     fillColor: Colors.white,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       print(selected);
                       selected = 7;
                       Navigator.pop(context);
                       _showSavePrompt();
                     },
+                    shape: const CircleBorder(),
                     child: selected == 7
-                        ? Icon(Icons.check, size: 40)
-                        : Container(height: 40, width: 40),
-                    shape: CircleBorder(),
+                        ? const Icon(Icons.check, size: 40)
+                        : const SizedBox(height: 40, width: 40),
                   ),
                   RawMaterialButton(
                     fillColor: Colors.blueGrey,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       print(selected);
                       selected = 8;
                       Navigator.pop(context);
                       _showSavePrompt();
                     },
+                    shape: const CircleBorder(),
                     child: selected == 8
-                        ? Icon(Icons.check, size: 40)
-                        : Container(height: 40, width: 40),
-                    shape: CircleBorder(),
+                        ? const Icon(Icons.check, size: 40)
+                        : const SizedBox(height: 40, width: 40),
                   ),
                 ],
               ),
@@ -302,7 +303,7 @@ class _GameScreenState extends State<GameScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
+            child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
               print("Saving following scores: $score");
@@ -322,7 +323,7 @@ class _GameScreenState extends State<GameScreen> {
               Navigator.pop(context);
               Navigator.of(context).pushNamed('/tysiąc');
             },
-            child: Text("zapisz i wyjdź",
+            child: const Text("zapisz i wyjdź",
                 style: TextStyle(color: MyColors.azureCyan))),
       ],
     );
@@ -331,15 +332,15 @@ class _GameScreenState extends State<GameScreen> {
 
   void _showDeletePrompt() {
     AlertDialog dialog = AlertDialog(
-      title: Text("Usunąć ostatnią rundę?", textAlign: TextAlign.center),
-      content: Text("Tej czynności nie będzie można cofnąć.",
+      title: const Text("Usunąć ostatnią rundę?", textAlign: TextAlign.center),
+      content: const Text("Tej czynności nie będzie można cofnąć.",
           textAlign: TextAlign.center),
       actions: <Widget>[
         TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
+            child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
               print("Analyzing data");
@@ -370,7 +371,7 @@ class _GameScreenState extends State<GameScreen> {
               // ignore: invalid_use_of_protected_member
             },
             child:
-                Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
+                const Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
       ],
     );
     showDialog(context: context, builder: (_) => dialog);
@@ -387,14 +388,14 @@ class _GameScreenState extends State<GameScreen> {
         textAlign: TextAlign.center,
       ),
       content: Column(children: <Widget>[
-        new Text(
+        const Text(
           "Uzyskane punkty:",
           textAlign: TextAlign.center,
         ),
         Row(
           children: <Widget>[
             Column(children: <Widget>[
-              Container(
+              SizedBox(
                   width: MediaQuery.of(context).size.width /
                       double.parse(playerCount) *
                       2/3,
@@ -403,13 +404,13 @@ class _GameScreenState extends State<GameScreen> {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                   )),
-              Container(
+              SizedBox(
                   height: 50,
                   width: MediaQuery.of(context).size.width /
                       double.parse(playerCount) *
                       2/3,
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         border: OutlineInputBorder(), hintText: "0"),
                     onChanged: (String str) {
                       playerOneAdd = str;
@@ -418,7 +419,7 @@ class _GameScreenState extends State<GameScreen> {
                   )),
               IconButton(
                   icon: Tab(
-                      icon: new Image.asset(playerGiving[0]
+                      icon: Image.asset(playerGiving[0]
                           ? "./images/giveSelected.png"
                           : "./images/give.png")),
                   onPressed: () {
@@ -431,7 +432,7 @@ class _GameScreenState extends State<GameScreen> {
                   })
             ]),
             Column(children: <Widget>[
-              Container(
+              SizedBox(
                   width: MediaQuery.of(context).size.width /
                       double.parse(playerCount) *
                       2/3,
@@ -440,13 +441,13 @@ class _GameScreenState extends State<GameScreen> {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                   )),
-              Container(
+              SizedBox(
                   height: 50,
                   width: MediaQuery.of(context).size.width /
                       double.parse(playerCount) *
                       2/3,
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: '0',
                     ),
@@ -457,7 +458,7 @@ class _GameScreenState extends State<GameScreen> {
                   )),
               IconButton(
                   icon: Tab(
-                      icon: new Image.asset(playerGiving[1]
+                      icon: Image.asset(playerGiving[1]
                           ? "./images/giveSelected.png"
                           : "./images/give.png")),
                   onPressed: () {
@@ -471,7 +472,7 @@ class _GameScreenState extends State<GameScreen> {
             ]),
             double.parse(playerCount) >= 3.0
                 ? Column(children: <Widget>[
-                    Container(
+                    SizedBox(
                         width: MediaQuery.of(context).size.width /
                             double.parse(playerCount) *
                             0.688,
@@ -480,13 +481,13 @@ class _GameScreenState extends State<GameScreen> {
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                         )),
-                    Container(
+                    SizedBox(
                         height: 50,
                         width: MediaQuery.of(context).size.width /
                             double.parse(playerCount) *
                             2/3,
                         child: TextField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: '0',
                           ),
@@ -497,7 +498,7 @@ class _GameScreenState extends State<GameScreen> {
                         )),
                     IconButton(
                         icon: Tab(
-                            icon: new Image.asset(playerGiving[2]
+                            icon: Image.asset(playerGiving[2]
                                 ? "./images/giveSelected.png"
                                 : "./images/give.png")),
                         onPressed: () {
@@ -509,10 +510,10 @@ class _GameScreenState extends State<GameScreen> {
                           _showAlert();
                         })
                   ])
-                : Container(width: 0, height: 0),
+                : const SizedBox(width: 0, height: 0),
             double.parse(playerCount) == 4.0
                 ? Column(children: <Widget>[
-                    Container(
+                    SizedBox(
                         width: MediaQuery.of(context).size.width /
                             double.parse(playerCount) *
                             2/3,
@@ -521,13 +522,13 @@ class _GameScreenState extends State<GameScreen> {
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                         )),
-                    Container(
+                    SizedBox(
                         height: 50,
                         width: MediaQuery.of(context).size.width /
                             double.parse(playerCount) *
                             2/3,
                         child: TextField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: '0',
                           ),
@@ -538,7 +539,7 @@ class _GameScreenState extends State<GameScreen> {
                         )),
                     IconButton(
                         icon: Tab(
-                            icon: new Image.asset(playerGiving[3]
+                            icon: Image.asset(playerGiving[3]
                                 ? "./images/giveSelected.png"
                                 : "./images/give.png")),
                         onPressed: () {
@@ -550,37 +551,33 @@ class _GameScreenState extends State<GameScreen> {
                           _showAlert();
                         })
                   ])
-                : Container(width: 0, height: 0)
+                : const SizedBox(width: 0, height: 0)
           ],
         ),
         //przepraszam, mamo
         Text(playerGiving[0]
-            ? playerName[0] +
-                " daje po 60. Pola tekstowe nie będą brane pod uwagę."
+            ? "${playerName[0]} daje po 60. Pola tekstowe nie będą brane pod uwagę."
             : (playerGiving[1]
-                ? playerName[1] +
-                    " daje po 60. Pola tekstowe nie będą brane pod uwagę."
+                ? "${playerName[1]} daje po 60. Pola tekstowe nie będą brane pod uwagę."
                 : (playerGiving[2]
-                    ? playerName[2] +
-                        " daje po 60. Pola tekstowe nie będą brane pod uwagę."
+                    ? "${playerName[2]} daje po 60. Pola tekstowe nie będą brane pod uwagę."
                     : (playerGiving[3]
-                        ? playerName[3] +
-                            " daje po 60. Pola tekstowe nie będą brane pod uwagę."
+                        ? "${playerName[3]} daje po 60. Pola tekstowe nie będą brane pod uwagę."
                         : "")))),
         Expanded(
             child: SingleChildScrollView(
                 child: Text(
           errorText,
-          style: TextStyle(color: MyColors.cardRed),
+          style: const TextStyle(color: MyColors.cardRed),
         )))
       ]),
       actions: <Widget>[
-        new TextButton(
+        TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
-        new TextButton(
+            child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
+        TextButton(
             onPressed: () {
               print(score);
               if (playerOneAdd == "") {
@@ -791,7 +788,7 @@ class _GameScreenState extends State<GameScreen> {
               }
             },
             child:
-                Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
+                const Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
       ],
     );
     showDialog(context: context, builder: (_) => dialog);
@@ -862,7 +859,7 @@ class _GameScreenState extends State<GameScreen> {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            title: Text('Kartowniczek - tysiąc'),
+            title: const Text('Kartowniczek - tysiąc'),
             centerTitle: true,
             backgroundColor: MyColors.appBarGreen,
           ),
@@ -870,7 +867,7 @@ class _GameScreenState extends State<GameScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(children: <Widget>[
-                Container(
+                SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width / 7,
                     child: Row(
@@ -878,17 +875,24 @@ class _GameScreenState extends State<GameScreen> {
                         Expanded(
                             flex: 2,
                             child: Container(
-                                padding: EdgeInsets.all(5),
-                                child: Center(child: Text("po 60")),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
                                     border: Border(
                                   bottom: BorderSide(
                                       width: 3, color: Colors.black54),
-                                )))),
+                                )),
+                                child: const Center(child: Text("po 60")))),
                         Expanded(
                             flex: 3,
                             child: Container(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                  left: BorderSide(
+                                      width: 3, color: Colors.black54),
+                                  bottom: BorderSide(
+                                      width: 3, color: Colors.black54),
+                                )),
                                 child: Center(
                                     child: Row(
                                         mainAxisAlignment:
@@ -897,18 +901,18 @@ class _GameScreenState extends State<GameScreen> {
                                       Text(playerGiveRemaining[0].toString()),
                                       Container(width: 10),
                                       Image.asset('./images/give.png')
-                                    ])),
-                                decoration: BoxDecoration(
+                                    ])))),
+                        Expanded(
+                            flex: 3,
+                            child: Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
                                     border: Border(
                                   left: BorderSide(
                                       width: 3, color: Colors.black54),
                                   bottom: BorderSide(
                                       width: 3, color: Colors.black54),
-                                )))),
-                        Expanded(
-                            flex: 3,
-                            child: Container(
-                                padding: EdgeInsets.all(5),
+                                )),
                                 child: Center(
                                     child: Row(
                                         mainAxisAlignment:
@@ -917,19 +921,19 @@ class _GameScreenState extends State<GameScreen> {
                                       Text(playerGiveRemaining[1].toString()),
                                       Container(width: 10),
                                       Image.asset('./images/give.png')
-                                    ])),
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                  left: BorderSide(
-                                      width: 3, color: Colors.black54),
-                                  bottom: BorderSide(
-                                      width: 3, color: Colors.black54),
-                                )))),
+                                    ])))),
                         double.parse(playerCount) >= 3.0
                             ? Expanded(
                                 flex: 3,
                                 child: Container(
-                                    padding: EdgeInsets.all(5),
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: const BoxDecoration(
+                                        border: Border(
+                                      left: BorderSide(
+                                          width: 3, color: Colors.black54),
+                                      bottom: BorderSide(
+                                          width: 3, color: Colors.black54),
+                                    )),
                                     child: Center(
                                         child: Row(
                                             mainAxisAlignment:
@@ -939,20 +943,20 @@ class _GameScreenState extends State<GameScreen> {
                                               .toString()),
                                           Container(width: 10),
                                           Image.asset('./images/give.png')
-                                        ])),
-                                    decoration: BoxDecoration(
+                                        ]))))
+                            : const SizedBox(width: 0, height: 0),
+                        double.parse(playerCount) == 4.0
+                            ? Expanded(
+                                flex: 3,
+                                child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: const BoxDecoration(
                                         border: Border(
                                       left: BorderSide(
                                           width: 3, color: Colors.black54),
                                       bottom: BorderSide(
                                           width: 3, color: Colors.black54),
-                                    ))))
-                            : Container(width: 0, height: 0),
-                        double.parse(playerCount) == 4.0
-                            ? Expanded(
-                                flex: 3,
-                                child: Container(
-                                    padding: EdgeInsets.all(5),
+                                    )),
                                     child: Center(
                                         child: Row(
                                             mainAxisAlignment:
@@ -962,18 +966,11 @@ class _GameScreenState extends State<GameScreen> {
                                               .toString()),
                                           Container(width: 10),
                                           Image.asset('./images/give.png')
-                                        ])),
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                      left: BorderSide(
-                                          width: 3, color: Colors.black54),
-                                      bottom: BorderSide(
-                                          width: 3, color: Colors.black54),
-                                    ))))
-                            : Container(width: 0, height: 0)
+                                        ]))))
+                            : const SizedBox(width: 0, height: 0)
                       ],
                     )),
-                Container(
+                SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width / 7,
                     child: Row(
@@ -981,65 +978,65 @@ class _GameScreenState extends State<GameScreen> {
                         Expanded(
                             flex: 2,
                             child: Container(
-                                padding: EdgeInsets.all(5),
-                                child: Center(child: Text("Runda")),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
                                     border: Border(
                                   bottom: BorderSide(
                                       width: 3, color: Colors.black54),
-                                )))),
+                                )),
+                                child: const Center(child: Text("Runda")))),
                         Expanded(
                             flex: 3,
                             child: Container(
-                                padding: EdgeInsets.all(5),
-                                child: Center(child: Text(playerName[0], textAlign: TextAlign.center)),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
                                     border: Border(
                                   left: BorderSide(
                                       width: 3, color: Colors.black54),
                                   bottom: BorderSide(
                                       width: 3, color: Colors.black54),
-                                )))),
+                                )),
+                                child: Center(child: Text(playerName[0], textAlign: TextAlign.center)))),
                         Expanded(
                             flex: 3,
                             child: Container(
-                                padding: EdgeInsets.all(5),
-                                child: Center(child: Text(playerName[1], textAlign: TextAlign.center)),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
                                     border: Border(
                                   left: BorderSide(
                                       width: 3, color: Colors.black54),
                                   bottom: BorderSide(
                                       width: 3, color: Colors.black54),
-                                )))),
+                                )),
+                                child: Center(child: Text(playerName[1], textAlign: TextAlign.center)))),
                         double.parse(playerCount) >= 3.0
                             ? Expanded(
                                 flex: 3,
                                 child: Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Center(child: Text(playerName[2], textAlign: TextAlign.center)),
-                                    decoration: BoxDecoration(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: const BoxDecoration(
                                         border: Border(
                                       left: BorderSide(
                                           width: 3, color: Colors.black54),
                                       bottom: BorderSide(
                                           width: 3, color: Colors.black54),
-                                    ))))
-                            : Container(width: 0, height: 0),
+                                    )),
+                                    child: Center(child: Text(playerName[2], textAlign: TextAlign.center))))
+                            : const SizedBox(width: 0, height: 0),
                         double.parse(playerCount) == 4.0
                             ? Expanded(
                                 flex: 3,
                                 child: Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Center(child: Text(playerName[3], textAlign: TextAlign.center)),
-                                    decoration: BoxDecoration(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: const BoxDecoration(
                                         border: Border(
                                       left: BorderSide(
                                           width: 3, color: Colors.black54),
                                       bottom: BorderSide(
                                           width: 3, color: Colors.black54),
-                                    ))))
-                            : Container(width: 0, height: 0)
+                                    )),
+                                    child: Center(child: Text(playerName[3], textAlign: TextAlign.center))))
+                            : const SizedBox(width: 0, height: 0)
                       ],
                     )),
               ]),
@@ -1048,14 +1045,14 @@ class _GameScreenState extends State<GameScreen> {
                       controller: scoreListController,
                       child: Column(children: rounds))),
               Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: MyColors.background,
                       border: Border(
                           top: BorderSide(
                               color: MyColors.highlightOrange, width: 1))),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.width / 2.5,
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -1066,16 +1063,15 @@ class _GameScreenState extends State<GameScreen> {
                                 children: <Widget>[
                                   Expanded(child:
                                     Text(
-                                        "Rozdaje " +
-                                            playerName[(roundsCompleting - 1) %
+                                        "Rozdaje ${playerName[(roundsCompleting - 1) %
                                                 int.parse(
                                                     double.parse(playerCount)
                                                         .round()
-                                                        .toString())],
+                                                        .toString())]}",
                                         textAlign: TextAlign.center, overflow: TextOverflow.clip)),
                                     Row(children: <Widget>[
                                       IconButton(
-                                          icon: Icon(Icons.delete),
+                                          icon: const Icon(Icons.delete),
                                           color: MyColors.azureCyan,
                                           onPressed: () {
                                             if (roundsCompleting > 1) {
@@ -1086,7 +1082,7 @@ class _GameScreenState extends State<GameScreen> {
                                             }
                                           }),
                                       IconButton(
-                                          icon: Icon(Icons.save_alt),
+                                          icon: const Icon(Icons.save_alt),
                                           color: MyColors.azureCyan,
                                           onPressed: () {
                                             if (roundsCompleting != 1) {
@@ -1098,12 +1094,11 @@ class _GameScreenState extends State<GameScreen> {
                                           })
                                     ])
                                   ])
-                            : Container(height: 0, width: 0),
+                            : const SizedBox(height: 0, width: 0),
                         Container(height: 20),
                         winner == -1
                             ? Expanded(
                                 child: ElevatedButton(
-                                child: Text("Koniec rundy"),
                                 onPressed: () {
                                   _showAlert();
                                   print(playerGiving[0]);
@@ -1112,18 +1107,17 @@ class _GameScreenState extends State<GameScreen> {
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         MyColors.cardRed)),
+                                child: const Text("Koniec rundy"),
                               ))
                             : Expanded(
                                 child: ElevatedButton(
-                                child: Text(playerName[winner] + //TODO: throws error
-                                    " wygrywa! Wciśnij, aby zakończyć."),
                                 onPressed: () {
                                   addStat(jsonEncode(StatRow((double.parse(playerCount)).toInt(), playerName[0], playerName[1], playerName[2], playerName[3], playerName[winner])));
-                                  print("Added " + jsonEncode(StatRow((double.parse(playerCount)).toInt(), playerName[0], playerName[1], playerName[2], playerName[3], playerName[winner])));
+                                  print("Added ${jsonEncode(StatRow((double.parse(playerCount)).toInt(), playerName[0], playerName[1], playerName[2], playerName[3], playerName[winner]))}");
                                   Navigator.popUntil(context, ModalRoute.withName('/'));
                                   Navigator.of(context).pushNamed('/');
                                   print("Will now try and delete corresponding save files");
-                                  print("Autodelete: " + settings.autoDelete.toString());
+                                  print("Autodelete: ${settings.autoDelete}");
                                   //usunięcie wszystkich odpowiadających plików z zapisem
                                   if (settings.autoDelete) {
                                     print("Running deleteGames");
@@ -1135,6 +1129,7 @@ class _GameScreenState extends State<GameScreen> {
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         MyColors.highlightOrange)),
+                                child: Text("${playerName[winner]} wygrywa! Wciśnij, aby zakończyć."),
                               )),
                       ])),
             ],
@@ -1151,7 +1146,7 @@ class ScoreRow extends StatelessWidget {
   final int playerFourScore;
   final int playerCount;
 
-  ScoreRow(this.round, this.playerOneScore, this.playerTwoScore,
+  const ScoreRow(this.round, this.playerOneScore, this.playerTwoScore,
       this.playerThreeScore, this.playerFourScore, this.playerCount);
 
   @override
@@ -1163,56 +1158,56 @@ class ScoreRow extends StatelessWidget {
             Expanded(
                 flex: 2,
                 child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Center(child: Text(round.toString())),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
                         border: Border(
                       bottom: BorderSide(width: 3, color: Colors.black54),
-                    )))),
+                    )),
+                    child: Center(child: Text(round.toString())))),
             Expanded(
                 flex: 3,
                 child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Center(child: Text(playerOneScore.toString())),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
                         border: Border(
                       left: BorderSide(width: 3, color: Colors.black54),
                       bottom: BorderSide(width: 3, color: Colors.black54),
-                    )))),
+                    )),
+                    child: Center(child: Text(playerOneScore.toString())))),
             Expanded(
                 flex: 3,
                 child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Center(child: Text(playerTwoScore.toString())),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
                         border: Border(
                       left: BorderSide(width: 3, color: Colors.black54),
                       bottom: BorderSide(width: 3, color: Colors.black54),
-                    )))),
+                    )),
+                    child: Center(child: Text(playerTwoScore.toString())))),
             playerCount >= 3
                 ? Expanded(
                     flex: 3,
                     child: Container(
-                        padding: EdgeInsets.all(5),
-                        child: Center(child: Text(playerThreeScore.toString())),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(5),
+                        decoration: const BoxDecoration(
                             border: Border(
                           left: BorderSide(width: 3, color: Colors.black54),
                           bottom: BorderSide(width: 3, color: Colors.black54),
-                        ))))
-                : Container(width: 0, height: 0),
+                        )),
+                        child: Center(child: Text(playerThreeScore.toString()))))
+                : const SizedBox(width: 0, height: 0),
             playerCount == 4
                 ? Expanded(
                     flex: 3,
                     child: Container(
-                        padding: EdgeInsets.all(5),
-                        child: Center(child: Text(playerFourScore.toString())),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(5),
+                        decoration: const BoxDecoration(
                             border: Border(
                           left: BorderSide(width: 3, color: Colors.black54),
                           bottom: BorderSide(width: 3, color: Colors.black54),
-                        ))))
-                : Container(width: 0, height: 0)
+                        )),
+                        child: Center(child: Text(playerFourScore.toString()))))
+                : const SizedBox(width: 0, height: 0)
           ],
         ));
   }
@@ -1308,25 +1303,25 @@ String toMyrtaszString(
     int color,
     int playerCount,
     String timeIndex) {
-  String myrtaszString = color.toString() + '#';
+  String myrtaszString = '$color#';
   for (int x = 0; x <= 3; x++) {
     print("running for $x");
     score[x].forEach((subElement) {
-      myrtaszString += subElement.toString() + ' ';
+      myrtaszString += '$subElement ';
     });
     myrtaszString += '#';
   }
   playerNames.forEach((element) {
-    myrtaszString += element + '+';
+    myrtaszString += '$element+';
   });
   myrtaszString = myrtaszString.substring(0, myrtaszString.length - 1);
   myrtaszString += '#';
   playerGiveRemaining.forEach((element) {
-    myrtaszString += element.toString() + ' ';
+    myrtaszString += '$element ';
   });
   myrtaszString += '#';
   playerGiveHistory.forEach((element) {
-    myrtaszString += element.toString() + ' ';
+    myrtaszString += '$element ';
   });
   myrtaszString += '#';
   myrtaszString += playerCount.toString();

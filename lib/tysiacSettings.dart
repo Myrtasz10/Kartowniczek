@@ -3,12 +3,14 @@ import 'package:kartowniczek/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TysiacSettings extends StatefulWidget {
+  const TysiacSettings({Key key}) : super(key: key);
+
   @override
   _TysiacSettings createState() => _TysiacSettings();
 }
 
 class _TysiacSettings extends State<TysiacSettings> {
-  AppSettings settings = new AppSettings();
+  AppSettings settings = AppSettings();
 
   @override
   void initState() {
@@ -25,23 +27,21 @@ class _TysiacSettings extends State<TysiacSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ustawienia'),
+        title: const Text('Ustawienia'),
         centerTitle: true,
         backgroundColor: MyColors.appBarGreen,
       ),
-      body: Container(
-        child: SwitchListTile(
-          title: const Text(
-              'Po zakończeniu rozgrywki automatycznie usuwaj skojarzone z nią zapisy'),
-            value: settings.autoDelete,
-            onChanged: (newVal) {
-              setState(() {
-                settings.autoDelete = newVal;
-                writeBool('autoDelete', newVal);
-              });
-            },
-          secondary: const Icon(Icons.delete),
-        ),
+      body: SwitchListTile(
+        title: const Text(
+            'Po zakończeniu rozgrywki automatycznie usuwaj skojarzone z nią zapisy'),
+          value: settings.autoDelete,
+          onChanged: (newVal) {
+            setState(() {
+              settings.autoDelete = newVal;
+              writeBool('autoDelete', newVal);
+            });
+          },
+        secondary: const Icon(Icons.delete),
       ),
     );
   }

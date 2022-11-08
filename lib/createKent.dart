@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
 import './Colors.dart';
 
 class CreateKent extends StatefulWidget {
+  const CreateKent({Key key}) : super(key: key);
 
   @override
   _CreateKentState createState() => _CreateKentState();
@@ -10,16 +13,16 @@ class CreateKent extends StatefulWidget {
 
 class _CreateKentState extends State<CreateKent> {
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey =  GlobalKey<ScaffoldState>();
 
   showSnackBar(String popText) {
-    final snackBar = new SnackBar(
-      content: new Text(popText),
-      duration: new Duration(seconds: 3),
+    final snackBar =  SnackBar(
+      content:  Text(popText),
+      duration:  const Duration(seconds: 3),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
-  static List<String> groupNames = new List(10);
+  static List<String> groupNames =  List.filled(10, "");
   int fieldCounter = 2;
   List<Widget> inputFields = [InputRow(0), InputRow(1)];
 
@@ -38,7 +41,7 @@ class _CreateKentState extends State<CreateKent> {
         x++;
       });
     }
-    catch (NoSuchMethodError) {
+    on NoSuchMethodError {
       print("idk what caused it lol");
       showSnackBar("Nazwy graczy nie mogą być puste");
     }
@@ -66,11 +69,11 @@ class _CreateKentState extends State<CreateKent> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text('Nowa gra'),
+          title: const Text('Nowa gra'),
           centerTitle: true,
           backgroundColor: MyColors.appBarGreen,
         ),
-        body: Container(
+        body: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child:
@@ -79,7 +82,7 @@ class _CreateKentState extends State<CreateKent> {
             SingleChildScrollView(child:
             Column(children: inputFields))),
             Row(children: <Widget>[
-              IconButton(icon: Icon(Icons.add), onPressed: () {
+              IconButton(icon: const Icon(Icons.add), onPressed: () {
                 if(inputFields.length < 10) {
                   setState(() {
                   inputFields.add(InputRow(fieldCounter++));
@@ -88,7 +91,7 @@ class _CreateKentState extends State<CreateKent> {
                   showSnackBar("Zbyt wiele drużyn");
                 }
             }),
-              IconButton(icon: Icon(Icons.remove), onPressed: () {
+              IconButton(icon: const Icon(Icons.remove), onPressed: () {
                 if(inputFields.length > 2) {
                   setState(() {
                     groupNames[--fieldCounter] = '';
@@ -102,7 +105,6 @@ class _CreateKentState extends State<CreateKent> {
             Align(
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
-                  child: Text("Rozpocznij grę"),
                   onPressed: () {
                     if(properNames(groupNames)) {
                       print(groupNames);
@@ -113,6 +115,7 @@ class _CreateKentState extends State<CreateKent> {
                     }
                   },
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColors.cardRed)),
+                  child: const Text("Rozpocznij grę"),
                 )),
         ])
     ));
@@ -124,7 +127,7 @@ class InputRow extends StatelessWidget {
 
   final int rowIndex;
 
-  InputRow(this.rowIndex);
+  InputRow(this.rowIndex, {Key key}) : super(key: key);
 
   String playerOne = '';
   String playerTwo = '';
@@ -132,29 +135,29 @@ class InputRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: MediaQuery.of(context).size.width*0.9,
         child: Row(children: [
           Expanded(child:
           TextField(
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Gracz 1',
       ),
       onChanged: (String str) {
         playerOne = str;
-        localInput = playerOne + ' i ' + playerTwo;
+        localInput = '$playerOne i $playerTwo';
         _CreateKentState().writeIndex(localInput, rowIndex);
         print(localInput);
       },
     )),
       Expanded(child:
       TextField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Gracz 2',
         ),
         onChanged: (String str) {
           playerTwo = str;
-          localInput = playerOne + ' i ' + playerTwo;
+          localInput = '$playerOne i $playerTwo';
           _CreateKentState().writeIndex(localInput, rowIndex);
           print(localInput);
         },

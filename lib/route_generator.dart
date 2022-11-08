@@ -13,22 +13,22 @@ class RouteGenerator {
     final args = settings.arguments;
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => FirstPage());
+        return MaterialPageRoute(builder: (_) => const FirstPage());
       case '/play':
         //if (args is String) {
         return MaterialPageRoute(builder: (_) => GameScreen(data: args));
       //}
       //return _errorRoute();
       case '/create':
-        return MaterialPageRoute(builder: (_) => Create());
+        return MaterialPageRoute(builder: (_) => const Create());
       case '/tysiąc':
-        return MaterialPageRoute(builder: (_) => Tysiac());
+        return MaterialPageRoute(builder: (_) => const Tysiac());
       case '/createKent':
-        return MaterialPageRoute(builder: (_) => CreateKent());
+        return MaterialPageRoute(builder: (_) => const CreateKent());
       case '/kent':
         return MaterialPageRoute(builder: (_) => Kent(data: args));
       case '/stats':
-        return MaterialPageRoute(builder: (_) => Stats());
+        return MaterialPageRoute(builder: (_) => const Stats());
       case '/tysiacsettings':
         return MaterialPageRoute(builder: (_) => TysiacSettings());
       default:
@@ -40,9 +40,9 @@ class RouteGenerator {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Brak ścieżki'),
+          title: const Text('Brak ścieżki'),
         ),
-        body: Center(
+        body: const Center(
           child:
               Text('Wybrana ścieżka nie istnieje. Wróć do poprzedniej strony.'),
         ),

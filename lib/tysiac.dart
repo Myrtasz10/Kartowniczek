@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,18 +10,20 @@ import './Colors.dart';
 import './gameScreen.dart';
 
 class Tysiac extends StatefulWidget {
+  const Tysiac({Key key}) : super(key: key);
+
 
   @override
   TysiacState createState() => TysiacState();
 }
 
 class TysiacState extends State<Tysiac> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   showSnackBar(String popText) {
-    final snackBar = new SnackBar(
-      content: new Text(popText),
-      duration: new Duration(seconds: 3),
+    final snackBar = SnackBar(
+      content: Text(popText),
+      duration: const Duration(seconds: 3),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
@@ -62,11 +66,15 @@ class TysiacState extends State<Tysiac> {
     print("added");
     setState(() {
       gameButtons.add(Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.width / 4,
           child: ElevatedButton(
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColors.raisedButtonGrey)),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/create');
+            },
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const <Widget>[
               Icon(
                 Icons.add,
                 color: Colors.black87,
@@ -76,10 +84,6 @@ class TysiacState extends State<Tysiac> {
                 style: TextStyle(color: Colors.black87),
               ),
             ]),
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColors.raisedButtonGrey)),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/create');
-            },
           )));
     });
     print("Running render for each $savedGames");
@@ -141,7 +145,7 @@ class TysiacState extends State<Tysiac> {
 
   @override
   void initState() {
-    gameButtons = [Container(width: 0, height: 0)];
+    gameButtons = [const SizedBox(width: 0, height: 0)];
     print("Inserting $context into global");
     globalContext = context;
     loadFromSharedPref();
@@ -153,10 +157,10 @@ class TysiacState extends State<Tysiac> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Tysiąc'),
+        title: const Text('Tysiąc'),
         centerTitle: true,
         backgroundColor: MyColors.appBarGreen,
-          actions: <Widget>[IconButton(icon: new Icon(Icons.settings), onPressed: () {
+          actions: <Widget>[IconButton(icon: const Icon(Icons.settings), onPressed: () {
             Navigator.of(context).pushNamed('/tysiacsettings');
           })],
       ),
@@ -182,15 +186,15 @@ class TysiacState extends State<Tysiac> {
 
   void showDeletePrompt(int gameIndex) {
     AlertDialog dialog = AlertDialog(
-      title: Text("Usunąć zapis gry?", textAlign: TextAlign.center),
-      content: Text("Tej czynności nie będzie można cofnąć.", textAlign: TextAlign.center),
+      title: const Text("Usunąć zapis gry?", textAlign: TextAlign.center),
+      content: const Text("Tej czynności nie będzie można cofnąć.", textAlign: TextAlign.center),
       actions: <Widget>[
-        new TextButton(
+        TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
-        new TextButton(
+            child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
+        TextButton(
             onPressed: () {
               print(gameButtons);
               print("removing at $gameIndex");
@@ -198,7 +202,7 @@ class TysiacState extends State<Tysiac> {
               gameButtons.removeAt(gameIndex);
               deleteGame(gameIndex);
             },
-            child: Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
+            child: const Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
       ],
     );
     print("context is: ${_scaffoldKey.currentWidget}");
@@ -218,21 +222,21 @@ class SaveGameButton extends StatelessWidget {
   final int indexInHierarchy;
   final String timeIndex;
 
-  SaveGameButton(this.color, this.textColor, this.scores, this.players, this.playerCount, this.playerGiveRemaining, this.playerGiveHistory,
-      this.roundCount, this.indexInHierarchy, this.timeIndex);
+  const SaveGameButton(this.color, this.textColor, this.scores, this.players, this.playerCount, this.playerGiveRemaining, this.playerGiveHistory,
+      this.roundCount, this.indexInHierarchy, this.timeIndex, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         width: MediaQuery.of(context).size.width,
         // height: MediaQuery.of(context).size.width / 4,
         child: ElevatedButton(
           style: ButtonStyle(backgroundColor: MaterialStateProperty.all(color)),
           child: Container(
-            padding: EdgeInsets.only(bottom: 7, top: 7),
+            padding: const EdgeInsets.only(bottom: 7, top: 7),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-            Expanded (flex: 5, child: Text("Runda " + roundCount.toString(), style: TextStyle(color: textColor))),
+            Expanded (flex: 5, child: Text("Runda $roundCount", style: TextStyle(color: textColor))),
             Expanded(
               flex: 17,
                 child: Column(children: <Widget>[
@@ -242,11 +246,11 @@ class SaveGameButton extends StatelessWidget {
                   children: <Widget>[
                 Expanded(child: Text(players[0].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)),
                 Expanded(child: Text(players[1].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)),
-                playerCount >= 3 ? Expanded(child: Text(players[2].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)) : Container(
+                playerCount >= 3 ? Expanded(child: Text(players[2].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)) : const SizedBox(
                   height: 0,
                   width: 0,
                 ),
-                playerCount >= 4 ? Expanded(child: Text(players[3].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)) : Container(
+                playerCount >= 4 ? Expanded(child: Text(players[3].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)) : const SizedBox(
                   height: 0,
                   width: 0,
                 ),
@@ -257,11 +261,11 @@ class SaveGameButton extends StatelessWidget {
                   children: <Widget>[
                 Expanded(child: Text(sumAll(scores[0]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)),
                 Expanded(child: Text(sumAll(scores[1]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)),
-                playerCount >= 3 ? Expanded(child: Text(sumAll(scores[2]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)): Container(
+                playerCount >= 3 ? Expanded(child: Text(sumAll(scores[2]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)): const SizedBox(
                   height: 0,
                   width: 0,
                 ),
-                playerCount >= 4 ? Expanded(child: Text(sumAll(scores[3]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)): Container(
+                playerCount >= 4 ? Expanded(child: Text(sumAll(scores[3]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)): const SizedBox(
                   height: 0,
                   width: 0,
                 ),
@@ -295,17 +299,17 @@ class SaveGameButton extends StatelessWidget {
             //         height: 0,
             //         width: 0,
             //       ),
-            Expanded(child: GestureDetector(
-              child: IconButton(icon: Icon(Icons.delete), color: textColor, onPressed: () {
-                MyNotification(title: "snackbar")..dispatch(context);
+            Expanded(flex: 2, child: GestureDetector(
+              child: IconButton(icon: const Icon(Icons.delete), color: textColor, onPressed: () {
+                const MyNotification(title: "snackbar").dispatch(context);
               }),
               onLongPress: () {
-                MyNotification(title: "refresh")..dispatch(context);
+                const MyNotification(title: "refresh").dispatch(context);
                 print("Deleting game at $indexInHierarchy");
                 TysiacState().deleteGame(indexInHierarchy);
                 //TODO: dispatch notification
               },
-            ), flex: 2)
+            ))
           ])),
           onPressed: () {
             //TODO: tutaj

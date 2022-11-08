@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
 import './Colors.dart';
@@ -5,20 +7,20 @@ import './Colors.dart';
 class Kent extends StatefulWidget {
   final List<String> data;
 
-  Kent({
+  const Kent({
     Key key,
     @required this.data,
   }) : super(key: key);
 
   @override
-  _KentState createState() => _KentState();
+  KentState createState() => KentState();
 }
 
-class _KentState extends State<Kent> {
+class KentState extends State<Kent> {
   static List<int> scores = List<int>.filled(10, null, growable: false);
-  List<Widget> teamRows = [Container(width: 0, height: 0)];
+  List<Widget> teamRows = [const SizedBox(width: 0, height: 0)];
 
-  List<Widget> dataLogs = [Text("tutaj będą pojawiać się zmiany")];
+  List<Widget> dataLogs = [const Text("tutaj będą pojawiać się zmiany")];
 
   var updateController = ScrollController();
 
@@ -28,11 +30,7 @@ class _KentState extends State<Kent> {
     print(
         "3 - changing value $localCount by $change, equals ${localCount + change}");
     setState(() {
-      dataLogs.add(Text(widget.data[hierarchyIndex] +
-          ' ' +
-          (change > 0 ? '+' : '') +
-          change.toString() +
-          " punkt(y), zmiana z $localCount na ${localCount + change} o ${((DateTime.now().toString()).split(' ')[1]).split('.')[0]}"));
+      dataLogs.add(Text("${widget.data[hierarchyIndex]} ${change > 0 ? "+" : ""}$change punkt(y), zmiana z $localCount na ${localCount + change} o ${((DateTime.now().toString()).split(' ')[1]).split('.')[0]}"));
       Future.delayed(const Duration(milliseconds: 50), () {
         print("Scrolling at maxExtent");
         updateController.jumpTo(updateController.position.maxScrollExtent);
@@ -40,8 +38,9 @@ class _KentState extends State<Kent> {
     });
   }
 
+  @override
   void initState() {
-    List<String> teams = new List(int.parse(widget.data[10]));
+    List<String> teams = List.filled(int.parse(widget.data[10]), "");
     print('This is the list:');
     print(teams);
     for (int x = 0; x < int.parse(widget.data[10]); x++) {
@@ -62,19 +61,18 @@ class _KentState extends State<Kent> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Kent'),
+          title: const Text('Kent'),
           centerTitle: true,
           backgroundColor: MyColors.appBarGreen,
         ),
-        body: Container(
-            child: Column(children: <Widget>[
+        body: Column(children: <Widget>[
           Column(children: teamRows),
           Expanded(
-              child: SingleChildScrollView(
-            child: Column(children: dataLogs),
-            controller: updateController,
+          child: SingleChildScrollView(
+        controller: updateController,
+        child: Column(children: dataLogs),
           ))
-        ])));
+        ]));
   }
 }
 
@@ -83,15 +81,15 @@ class TeamRow extends StatefulWidget {
   final int teamIndex;
   final Function pushToLogs;
 
-  TeamRow(this.teamName, this.teamIndex, this.pushToLogs);
+  const TeamRow(this.teamName, this.teamIndex, this.pushToLogs);
 
 //  static int localScore = 0;
 
   @override
-  _TeamRowState createState() => _TeamRowState();
+  TeamRowState createState() => TeamRowState();
 }
 
-class _TeamRowState extends State<TeamRow> {
+class TeamRowState extends State<TeamRow> {
   int localScore = 0;
 
   @override
@@ -103,39 +101,44 @@ class _TeamRowState extends State<TeamRow> {
             Expanded(
                 flex: 1,
                 child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Center(child: Text(widget.teamIndex.toString())),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
                         border: Border(
                       bottom: BorderSide(width: 3, color: Colors.black54),
-                    )))),
+                    )),
+                    child: Center(child: Text(widget.teamIndex.toString())))),
             Expanded(
                 flex: 5,
                 child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Center(child: Text(widget.teamName.toString())),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
                         border: Border(
                       left: BorderSide(width: 3, color: Colors.black54),
                       bottom: BorderSide(width: 3, color: Colors.black54),
-                    )))),
+                    )),
+                    child: Center(child: Text(widget.teamName.toString())))),
             Expanded(
                 flex: 1,
                 child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Center(child: Text(localScore.toString())),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
                         border: Border(
                       left: BorderSide(width: 3, color: Colors.black54),
                       bottom: BorderSide(width: 3, color: Colors.black54),
-                    )))),
+                    )),
+                    child: Center(child: Text(localScore.toString())))),
             Expanded(
                 flex: 1,
                 child: Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
+                        border: Border(
+                      left: BorderSide(width: 3, color: Colors.black54),
+                      bottom: BorderSide(width: 3, color: Colors.black54),
+                    )),
                     child: Center(
                         child: RawMaterialButton(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       onPressed: () {
                         widget.pushToLogs(widget.teamIndex, 1, localScore);
                         setState(() {
@@ -148,19 +151,19 @@ class _TeamRowState extends State<TeamRow> {
                           localScore += 3;
                         });
                       },
-                    )),
-                    decoration: BoxDecoration(
-                        border: Border(
-                      left: BorderSide(width: 3, color: Colors.black54),
-                      bottom: BorderSide(width: 3, color: Colors.black54),
                     )))),
             Expanded(
                 flex: 1,
                 child: Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
+                        border: Border(
+                      left: BorderSide(width: 3, color: Colors.black54),
+                      bottom: BorderSide(width: 3, color: Colors.black54),
+                    )),
                     child: Center(
                         child: RawMaterialButton(
-                      child: Icon(Icons.remove),
+                      child: const Icon(Icons.remove),
                       onPressed: () {
                         widget.pushToLogs(widget.teamIndex, -1, localScore);
                         setState(() {
@@ -173,11 +176,6 @@ class _TeamRowState extends State<TeamRow> {
                           localScore -= 3;
                         });
                       },
-                    )),
-                    decoration: BoxDecoration(
-                        border: Border(
-                      left: BorderSide(width: 3, color: Colors.black54),
-                      bottom: BorderSide(width: 3, color: Colors.black54),
                     )))),
           ],
         ));

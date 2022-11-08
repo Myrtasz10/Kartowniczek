@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,6 +8,8 @@ import 'package:kartowniczek/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Stats extends StatefulWidget {
+  const Stats({Key key}) : super(key: key);
+
   @override
   StatsState createState() => StatsState();
 }
@@ -37,11 +41,11 @@ class StatsState extends State<Stats> {
     print("Stats have been set");
     print(statRowsRaw);
     statRowsRaw.forEach((element) {
-      print("1. Iterating for: " + element);
+      print("1. Iterating for: $element");
       statRows.add(jsonDecode(element));
     });
     statRows.forEach((element) {
-      print("2. Iterating for: " + element.toString());
+      print("2. Iterating for: $element");
       names.add(element['playerOne']);
       names.add(element['playerTwo']);
       if (element['playerCount'] >= 3) {
@@ -139,7 +143,7 @@ class StatsState extends State<Stats> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Statystyki'),
+        title: const Text('Statystyki'),
         centerTitle: true,
         backgroundColor: MyColors.appBarGreen,
       ),
@@ -159,7 +163,7 @@ class Party extends StatelessWidget {
   final int playerThreeScore;
   final int playerFourScore;
 
-  Party(
+  const Party(
       this.playerCount,
       this.playerOne,
       this.playerTwo,
@@ -168,12 +172,12 @@ class Party extends StatelessWidget {
       this.playerOneScore,
       this.playerTwoScore,
       this.playerThreeScore,
-      this.playerFourScore);
+      this.playerFourScore, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Card(
             child: Table(
           border: TableBorder.all(),
@@ -185,85 +189,85 @@ class Party extends StatelessWidget {
           children: [
             TableRow(children: [
               Container(
-                child: Text(
+                color: MyColors.raisedButtonGrey,
+                padding: const EdgeInsets.all(8.0),
+                child: const Text(
                   "Imię Gracza",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                color: MyColors.raisedButtonGrey,
-                padding: EdgeInsets.all(8.0),
               ),
               Container(
-                  child: Text("Wygrane",
+                  color: MyColors.highlightOrange,
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Text("Wygrane",
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                  color: MyColors.highlightOrange,
-                  padding: EdgeInsets.all(8.0))
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)))
             ]),
             TableRow(
-                decoration: (BoxDecoration(color: MyColors.azureCyanLight)),
+                decoration: (const BoxDecoration(color: MyColors.azureCyanLight)),
                 children: [
                   Container(
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(playerOne,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20)),
-                      padding: EdgeInsets.all(8.0)),
+                          style: const TextStyle(fontSize: 20))),
                   Container(
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(playerOneScore.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 30)),
-                      padding: EdgeInsets.all(8.0))
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 30)))
                 ]),
             TableRow(
-                decoration: (BoxDecoration(color: MyColors.azureCyanLight)),
+                decoration: (const BoxDecoration(color: MyColors.azureCyanLight)),
                 children: [
                   Container(
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(playerTwo,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20)),
-                      padding: EdgeInsets.all(8.0)),
+                          style: const TextStyle(fontSize: 20))),
                   Container(
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(playerTwoScore.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 30)),
-                      padding: EdgeInsets.all(8.0))
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 30)))
                 ]),
             playerCount >= 3
                 ? TableRow(
-                    decoration: (BoxDecoration(color: MyColors.azureCyanLight)),
+                    decoration: (const BoxDecoration(color: MyColors.azureCyanLight)),
                     children: [
                         Container(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(playerThree,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 20)),
-                            padding: EdgeInsets.all(8.0)),
+                                style: const TextStyle(fontSize: 20))),
                         Container(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(playerThreeScore.toString(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 30)),
-                            padding: EdgeInsets.all(8.0))
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 30)))
                       ])
                 : TableRow(
                     children: [Container(height: 0), Container(height: 0)]),
             playerCount == 4
                 ? TableRow(
-                    decoration: (BoxDecoration(color: MyColors.azureCyanLight)),
+                    decoration: (const BoxDecoration(color: MyColors.azureCyanLight)),
                     children: [
                         Container(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(playerFour,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 20)),
-                            padding: EdgeInsets.all(8.0)),
+                                style: const TextStyle(fontSize: 20))),
                         Container(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(playerFourScore.toString(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 30)),
-                            padding: EdgeInsets.all(8.0))
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 30)))
                       ])
                 : TableRow(
                     children: [Container(height: 0), Container(height: 0)]),
