@@ -40,7 +40,7 @@ class TysiacState extends State<Tysiac> {
     if (prefs.get("gameFile") == null) {
       return [];
     } else {
-      final List<String> savedGame = prefs.get("gameFile").cast<String>();
+      final List<String> savedGame = prefs.getStringList("gameFile"); //this stuff is ****** up bruh, reset if required
       print("Returning $savedGame");
       return savedGame;
     }
@@ -48,7 +48,7 @@ class TysiacState extends State<Tysiac> {
 
   Future<void> deleteGame(int toRemove) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> savedGame = (prefs.get("gameFile")).cast<String>();
+    final List<String> savedGame = prefs.getStringList("gameFile");
     print(savedGame);
     List<String> newSavedGame = [];
     savedGame.forEach((element) {
