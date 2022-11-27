@@ -8,7 +8,7 @@ import 'package:kartowniczek/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Stats extends StatefulWidget {
-  const Stats({Key key}) : super(key: key);
+  const Stats({required Key key}) : super(key: key);
 
   @override
   StatsState createState() => StatsState();
@@ -172,7 +172,7 @@ class Party extends StatelessWidget {
       this.playerOneScore,
       this.playerTwoScore,
       this.playerThreeScore,
-      this.playerFourScore, {Key key}) : super(key: key);
+      this.playerFourScore, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

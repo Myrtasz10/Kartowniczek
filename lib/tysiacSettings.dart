@@ -3,7 +3,7 @@ import 'package:kartowniczek/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TysiacSettings extends StatefulWidget {
-  const TysiacSettings({Key key}) : super(key: key);
+  const TysiacSettings({Key? key}) : super(key: key);
 
   @override
   _TysiacSettings createState() => _TysiacSettings();
@@ -64,5 +64,5 @@ class _TysiacSettings extends State<TysiacSettings> {
 class AppSettings {
   bool autoDelete;
 
-  AppSettings({this.autoDelete});
+  AppSettings({this.autoDelete = false});
 }

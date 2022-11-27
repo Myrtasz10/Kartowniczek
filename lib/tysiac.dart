@@ -10,7 +10,7 @@ import './Colors.dart';
 import './gameScreen.dart';
 
 class Tysiac extends StatefulWidget {
-  const Tysiac({Key key}) : super(key: key);
+  const Tysiac({Key? key}) : super(key: key);
 
 
   @override
@@ -25,22 +25,22 @@ class TysiacState extends State<Tysiac> {
       content: Text(popText),
       duration: const Duration(seconds: 3),
     );
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+    _scaffoldKey.currentState?.showSnackBar(snackBar);
   }
 
   List<Widget> gameButtons = [];
-  BuildContext globalContext;
+  late BuildContext globalContext;
 
   printGameButtons() {
     print(gameButtons);
   }
 
-  Future<List<String>> _getGamesFromSharedPref() async {
+  Future<List<String>?> _getGamesFromSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.get("gameFile") == null) {
       return [];
     } else {
-      final List<String> savedGame = prefs.getStringList("gameFile"); //this stuff is ****** up bruh, reset if required
+      final List<String>? savedGame = prefs.getStringList("gameFile");
       print("Returning $savedGame");
       return savedGame;
     }
@@ -48,10 +48,10 @@ class TysiacState extends State<Tysiac> {
 
   Future<void> deleteGame(int toRemove) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> savedGame = prefs.getStringList("gameFile");
+    final List<String>? savedGame = prefs.getStringList("gameFile");
     print(savedGame);
     List<String> newSavedGame = [];
-    savedGame.forEach((element) {
+    savedGame?.forEach((element) {
       newSavedGame.add(element);
     });
     newSavedGame.removeAt(toRemove);
@@ -59,10 +59,10 @@ class TysiacState extends State<Tysiac> {
     await prefs.setStringList("gameFile", newSavedGame);
   }
 
-  List<String> savedGames;
+  List<String> savedGames = [];
 
   void loadFromSharedPref() async {
-    List<String> savedGames = await _getGamesFromSharedPref();
+    List<String>? savedGames = await _getGamesFromSharedPref();
     print("added");
     setState(() {
       gameButtons.add(Container(
@@ -87,7 +87,7 @@ class TysiacState extends State<Tysiac> {
           )));
     });
     print("Running render for each $savedGames");
-    savedGames.forEach((element) {
+    savedGames?.forEach((element) {
       print("1 one");
       print(myrtaszDecode(element));
       List<Object> decoded = myrtaszDecode(element);
@@ -223,7 +223,7 @@ class SaveGameButton extends StatelessWidget {
   final String timeIndex;
 
   const SaveGameButton(this.color, this.textColor, this.scores, this.players, this.playerCount, this.playerGiveRemaining, this.playerGiveHistory,
-      this.roundCount, this.indexInHierarchy, this.timeIndex, {Key key}) : super(key: key);
+      this.roundCount, this.indexInHierarchy, this.timeIndex, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +325,7 @@ class SaveGameButton extends StatelessWidget {
 class MyNotification extends Notification {
   final String title;
 
-  const MyNotification({this.title});
+  const MyNotification({this.title = ""});
 }
 // String toMyrtaszString(
 //     List<List<int>> score,
