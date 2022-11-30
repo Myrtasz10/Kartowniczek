@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kartowniczek/Colors.dart';
 
 class Create extends StatefulWidget {
-  const Create({Key key}) : super(key: key);
+  const Create({Key? key}) : super(key: key);
 
   @override
   _CreateState createState() => _CreateState();
@@ -18,13 +18,13 @@ class _CreateState extends State<Create> {
       content:  Text(popText),
       duration:  const Duration(seconds: 3),
     );
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+    _scaffoldKey.currentState?.showSnackBar(snackBar);
   }
-//TODO: I. WANT. A TOAST. PERIOD.
+//TODO: I. WANT. A TOAST. PERIOD. //bro chill
   double playerCountValue = 3.0;
-  double playerCount;
+  double playerCount = 0.0;
   double giveCountValue = 3.0;
-  double giveCount;
+  double giveCount = 0.0;
   String playerOne = '';
   String playerTwo = '';
   String playerThree = '';

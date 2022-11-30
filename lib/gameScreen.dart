@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
 
@@ -12,15 +12,15 @@ class GameScreen extends StatefulWidget {
   final List<String> data;
 
   const GameScreen({
-    Key key,
-    @required this.data,
+    Key? key,
+    required this.data,
   }) : super(key: key);
 
   @override
-  _GameScreenState createState() => _GameScreenState();
+  GameScreenState createState() => GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
+class GameScreenState extends State<GameScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   AppSettings settings = AppSettings();
@@ -30,7 +30,7 @@ class _GameScreenState extends State<GameScreen> {
       content: Text(popText),
       duration: const Duration(seconds: 3),
     );
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+    _scaffoldKey.currentState?.showSnackBar(snackBar);
   }
 
   void readBool(String key) async {
@@ -103,7 +103,7 @@ class _GameScreenState extends State<GameScreen> {
     final savedGame = prefs.getStringList("gameFile");
     print(savedGame);
     List<String> newSavedGame = [];
-    savedGame.forEach((element) {
+    savedGame?.forEach((element) {
       print("we lookin' at:");
       print(element.substring(element.lastIndexOf('#')+1));
       if (element.substring(element.lastIndexOf('#')+1) != timeIndex) {
@@ -134,12 +134,12 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   //instead of widget.data[i]
-  String playerCount;
-  List<String> playerName;
-  String playerGive;
-  String timeIndex;
+  String playerCount = "";
+  List<String> playerName = [];
+  String playerGive = "";
+  String timeIndex = "";
 
-  List<int> playerGiveRemaining;
+  List<int> playerGiveRemaining = [];
   List<int> playerGiveHistory = [];
   List<Widget> rounds = [const SizedBox(height: 0, width: 0)];
   int roundsCompleting = 1;
@@ -155,7 +155,7 @@ class _GameScreenState extends State<GameScreen> {
   int selected = 1;
   var scoreListController = ScrollController();
 
-  String savedGame;
+  String savedGame = "";
 
   void getSave() async {
     var tempList = await _getGamesFromSharedPref();
@@ -818,16 +818,16 @@ class _GameScreenState extends State<GameScreen> {
     } else {
       //problem z przypisaniem po migracji? użyj decoded[i] as List<int> jako jawne castowanie
       List<Object> decoded = myrtaszDecode(widget.data[1]);
-      score = decoded[1];
+      score = decoded[1] as List<List<int>>;
       playerCount = decoded[5].toString();
-      playerName = decoded[2];
-      playerGiveRemaining = decoded[3];
-      playerGiveHistory = decoded[4];
-      roundsCompleting = decoded[6];
-      timeIndex = decoded[7];
+      playerName = decoded[2] as List<String>;
+      playerGiveRemaining = decoded[3] as List<int>;
+      playerGiveHistory = decoded[4] as List<int>;
+      roundsCompleting = decoded[6] as int;
+      timeIndex = decoded[7] as String;
       print("Will now render for $score");
       rounds.add(ScoreRow(
-          1, score[0][0], score[1][0], score[2][0], score[3][0], decoded[5]));
+          1, score[0][0], score[1][0], score[2][0], score[3][0], decoded[5] as int));
       for (int i = 1; i < roundsCompleting - 1; i++) {
         print(i);
         for (int j = 0; j < i; j++) {
@@ -843,7 +843,7 @@ class _GameScreenState extends State<GameScreen> {
             score[1][i] + renderingScores[1],
             score[2][i] + renderingScores[2],
             score[3][i] + renderingScores[3],
-            decoded[5]));
+            decoded[5] as int));
         renderingScores = [0, 0, 0, 0];
       }
     }
@@ -1216,7 +1216,7 @@ class ScoreRow extends StatelessWidget {
 class AppSettings {
   bool autoDelete;
 
-  AppSettings({this.autoDelete});
+  AppSettings({this.autoDelete = false});
 }
 
 //TODO: json doesn't support complex data types such as widgets. So it's not impossible, it's just a fuck ton of data to work with. fuck my life. Anyway, it will be okay if you just save it all and then rebuild it all in initstate. it'll be hundreds lines of code.

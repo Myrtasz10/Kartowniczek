@@ -8,7 +8,7 @@ import 'package:kartowniczek/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Stats extends StatefulWidget {
-  const Stats({required Key key}) : super(key: key);
+  const Stats({Key? key}) : super(key: key);
 
   @override
   StatsState createState() => StatsState();

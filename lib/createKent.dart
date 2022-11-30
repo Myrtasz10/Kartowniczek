@@ -1,17 +1,19 @@
-// ignore_for_file: avoid_print
+
+// ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import './Colors.dart';
 
 class CreateKent extends StatefulWidget {
-  const CreateKent({Key key}) : super(key: key);
+  const CreateKent({Key? key}) : super(key: key);
 
   @override
-  _CreateKentState createState() => _CreateKentState();
+  CreateKentState createState() => CreateKentState();
 }
 
-class _CreateKentState extends State<CreateKent> {
+class CreateKentState extends State<CreateKent> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey =  GlobalKey<ScaffoldState>();
 
@@ -20,42 +22,43 @@ class _CreateKentState extends State<CreateKent> {
       content:  Text(popText),
       duration:  const Duration(seconds: 3),
     );
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+    _scaffoldKey.currentState?.showSnackBar(snackBar);
   }
   static List<String> groupNames =  List.filled(10, "");
   int fieldCounter = 2;
   List<Widget> inputFields = [InputRow(0), InputRow(1)];
 
   bool properNames(List<String> names) {
+    bool toReturn = true;
     int x = 0;
     try {
       // ignore: missing_return
       names.forEach((element) {
-        print(element);
+        if(kDebugMode) print(element);
         String parselement = element.replaceAll(' i ', '');
         parselement = parselement.replaceAll(' ', '');
         if (x < fieldCounter && parselement.isEmpty) {
-          print("there's been an error: $parselement is empty and it shouldn't due to being $x out of $fieldCounter");
-          return false;
+          if(kDebugMode) print("there's been an error: $parselement is empty and it shouldn't due to being $x out of $fieldCounter");
+          toReturn = false;
         }
         x++;
       });
     }
     on NoSuchMethodError {
-      print("idk what caused it lol");
+      if(kDebugMode) print("idk what caused it lol");
       showSnackBar("Nazwy graczy nie mogą być puste");
     }
-    return true;
+    return toReturn;
   }
 
   void writeIndex(String newString, int entryIndex) {//I'm doing this only because the framework is retarded
-    print("ack");
-    print(newString);
-    print(entryIndex);
-    print("currently $groupNames");
-    print("Setting state");
+    if(kDebugMode) print("ack");
+    if(kDebugMode) print(newString);
+    if(kDebugMode) print(entryIndex);
+    if(kDebugMode) print("currently $groupNames");
+    if(kDebugMode) print("Setting state");
     groupNames[entryIndex] = newString;
-    print("now $groupNames");
+    if(kDebugMode) print("now $groupNames");
   }
 
   @override
@@ -107,8 +110,8 @@ class _CreateKentState extends State<CreateKent> {
                 child: ElevatedButton(
                   onPressed: () {
                     if(properNames(groupNames)) {
-                      print(groupNames);
-                      _scaffoldKey.currentState.hideCurrentSnackBar();
+                      if(kDebugMode) print(groupNames);
+                      _scaffoldKey.currentState?.hideCurrentSnackBar();
                       Navigator.of(context).pushNamed('/kent', arguments: groupNames + [fieldCounter.toString()]);
                     } else {
                       showSnackBar("Wygląda na to, że niektóre nazwy są puste lub po prostu za długie");
@@ -127,7 +130,7 @@ class InputRow extends StatelessWidget {
 
   final int rowIndex;
 
-  InputRow(this.rowIndex, {Key key}) : super(key: key);
+  InputRow(this.rowIndex, {Key? key}) : super(key: key);
 
   String playerOne = '';
   String playerTwo = '';
@@ -146,8 +149,8 @@ class InputRow extends StatelessWidget {
       onChanged: (String str) {
         playerOne = str;
         localInput = '$playerOne i $playerTwo';
-        _CreateKentState().writeIndex(localInput, rowIndex);
-        print(localInput);
+        CreateKentState().writeIndex(localInput, rowIndex);
+        if(kDebugMode) print(localInput);
       },
     )),
       Expanded(child:
@@ -158,8 +161,8 @@ class InputRow extends StatelessWidget {
         onChanged: (String str) {
           playerTwo = str;
           localInput = '$playerOne i $playerTwo';
-          _CreateKentState().writeIndex(localInput, rowIndex);
-          print(localInput);
+          CreateKentState().writeIndex(localInput, rowIndex);
+          if(kDebugMode) print(localInput);
         },
       )),
     ]));

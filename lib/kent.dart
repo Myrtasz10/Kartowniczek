@@ -8,8 +8,8 @@ class Kent extends StatefulWidget {
   final List<String> data;
 
   const Kent({
-    Key key,
-    @required this.data,
+    Key? key,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class Kent extends StatefulWidget {
 }
 
 class KentState extends State<Kent> {
-  static List<int> scores = List<int>.filled(10, null, growable: false);
+  static List<int> scores = List<int>.filled(10, -1, growable: false);
   List<Widget> teamRows = [const SizedBox(width: 0, height: 0)];
 
   List<Widget> dataLogs = [const Text("tutaj będą pojawiać się zmiany")];

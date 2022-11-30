@@ -16,7 +16,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const FirstPage());
       case '/play':
         //if (args is String) {
-        return MaterialPageRoute(builder: (_) => GameScreen(data: args));
+        return MaterialPageRoute(builder: (_) => GameScreen(data: args as List<String>));
       //}
       //return _errorRoute();
       case '/create':
@@ -26,7 +26,7 @@ class RouteGenerator {
       case '/createKent':
         return MaterialPageRoute(builder: (_) => const CreateKent());
       case '/kent':
-        return MaterialPageRoute(builder: (_) => Kent(data: args));
+        return MaterialPageRoute(builder: (_) => Kent(data: args as List<String>));
       case '/stats':
         return MaterialPageRoute(builder: (_) => const Stats());
       case '/tysiacsettings':

@@ -94,7 +94,7 @@ class TysiacState extends State<Tysiac> {
       print("2 one");
       print(decoded);
       print("3 one");
-      Color color;
+      Color color = Colors.black; //pusta inicjalizacja
       Color textColor = Colors.white;
       switch (decoded[0]) {
         case 1:
@@ -136,7 +136,7 @@ class TysiacState extends State<Tysiac> {
       print(savedGames.indexOf(element));
       setState(() {
         gameButtons.add(SaveGameButton(
-            color, textColor, decoded[1], decoded[2], decoded[5], decoded[3], decoded[4], decoded[6], savedGames.indexOf(element), decoded[7]));
+            color, textColor, decoded[1] as List<List<int>>, decoded[2] as List<String>, decoded[5] as int, decoded[3] as List<int>, decoded[4] as List<int>, decoded[6] as int, savedGames.indexOf(element), decoded[7] as String));
       });
     });
     print("Renderer finished with following output: $gameButtons");
