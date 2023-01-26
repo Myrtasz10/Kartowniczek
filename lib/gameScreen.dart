@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
 
@@ -1293,7 +1293,7 @@ List<Object> myrtaszDecode(String myrtaszString) {
     timeIndex
   ];
 }
-
+//jak NIE implementować serializacji
 String toMyrtaszString(
     List<List<int>> score,
     int roundsCompleting,
@@ -1349,3 +1349,4 @@ sumAll(List<int> listName) {
   });
   return sum;
 }
+//TODO: przypisanie dla gracza >900 error -> warning
