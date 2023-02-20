@@ -1,6 +1,7 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_if (kDebugMode) print
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import './Colors.dart';
 
@@ -25,14 +26,13 @@ class KentState extends State<Kent> {
   var updateController = ScrollController();
 
   void updateScores(int hierarchyIndex, int change, int localCount) {
-    print("1 - adding a change to LOGS");
-    print("2 - for ${scores[hierarchyIndex]}");
-    print(
-        "3 - changing value $localCount by $change, equals ${localCount + change}");
+    if (kDebugMode) print("1 - adding a change to LOGS");
+    if (kDebugMode) print("2 - for ${scores[hierarchyIndex]}");
+    if (kDebugMode) print("3 - changing value $localCount by $change, equals ${localCount + change}");
     setState(() {
       dataLogs.add(Text("${widget.data[hierarchyIndex]} ${change > 0 ? "+" : ""}$change punkt(y), zmiana z $localCount na ${localCount + change} o ${((DateTime.now().toString()).split(' ')[1]).split('.')[0]}"));
       Future.delayed(const Duration(milliseconds: 50), () {
-        print("Scrolling at maxExtent");
+        if (kDebugMode) print("Scrolling at maxExtent");
         updateController.jumpTo(updateController.position.maxScrollExtent);
       });
     });
@@ -41,17 +41,17 @@ class KentState extends State<Kent> {
   @override
   void initState() {
     List<String> teams = List.filled(int.parse(widget.data[10]), "");
-    print('This is the list:');
-    print(teams);
+    if (kDebugMode) print('This is the list:');
+    if (kDebugMode) print(teams);
     for (int x = 0; x < int.parse(widget.data[10]); x++) {
       teams[x] = widget.data[x];
     }
-    print(teams);
+    if (kDebugMode) print(teams);
     scores.fillRange(0, 10, 0);
-    print(widget.data);
+    if (kDebugMode) print(widget.data);
     int x = 0;
     teams.forEach((element) {
-      print("Adding $element with index $x");
+      if (kDebugMode) print("Adding $element with index $x");
       teamRows.add(TeamRow(element, x++, updateScores));
     });
     super.initState();

@@ -1,6 +1,7 @@
-// ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:kartowniczek/Colors.dart';
 
 class Create extends StatefulWidget {
@@ -18,9 +19,8 @@ class _CreateState extends State<Create> {
       content:  Text(popText),
       duration:  const Duration(seconds: 3),
     );
-    _scaffoldKey.currentState?.showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-//TODO: I. WANT. A TOAST. PERIOD. //bro chill
   double playerCountValue = 3.0;
   double playerCount = 0.0;
   double giveCountValue = 3.0;
@@ -61,7 +61,7 @@ class _CreateState extends State<Create> {
                                 value: playerCountValue,
                                 onChanged: (playerCount) {
                                   setState(() {
-                                    print(playerCount);
+                                    if (kDebugMode) print(playerCount);
                                     playerCountValue = playerCount;
                                   });
                                 },
@@ -81,7 +81,7 @@ class _CreateState extends State<Create> {
                       ),
                       onChanged: (String str) {
                         playerOne = str;
-                        print(playerOne);
+                        if (kDebugMode) print(playerOne);
                       },
                     ),
                     TextField(
@@ -91,7 +91,7 @@ class _CreateState extends State<Create> {
                       ),
                       onChanged: (String str) {
                         playerTwo = str;
-                        print(playerTwo);
+                        if (kDebugMode) print(playerTwo);
                       },
                     ),
                     (playerCountValue >= 3)
@@ -102,7 +102,7 @@ class _CreateState extends State<Create> {
                             ),
                             onChanged: (String str) {
                               playerThree = str;
-                              print(playerThree);
+                              if (kDebugMode) print(playerThree);
                             },
                           )
                         : const SizedBox(
@@ -117,7 +117,7 @@ class _CreateState extends State<Create> {
                             ),
                             onChanged: (String str) {
                               playerFour = str;
-                              print(playerFour);
+                              if (kDebugMode) print(playerFour);
                             },
                           )
                         : const SizedBox(
@@ -137,7 +137,7 @@ class _CreateState extends State<Create> {
                             value: giveCountValue,
                             onChanged: (giveCount) {
                               setState(() {
-                                print(giveCount);
+                                if (kDebugMode) print(giveCount);
                                 giveCountValue = giveCount;
                               });
                             },

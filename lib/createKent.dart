@@ -22,7 +22,8 @@ class CreateKentState extends State<CreateKent> {
       content:  Text(popText),
       duration:  const Duration(seconds: 3),
     );
-    _scaffoldKey.currentState?.showSnackBar(snackBar);
+    //_scaffoldKey.currentState?.showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
   static List<String> groupNames =  List.filled(10, "");
   int fieldCounter = 2;
@@ -34,31 +35,31 @@ class CreateKentState extends State<CreateKent> {
     try {
       // ignore: missing_return
       names.forEach((element) {
-        if(kDebugMode) print(element);
+        if (kDebugMode) print(element);
         String parselement = element.replaceAll(' i ', '');
         parselement = parselement.replaceAll(' ', '');
         if (x < fieldCounter && parselement.isEmpty) {
-          if(kDebugMode) print("there's been an error: $parselement is empty and it shouldn't due to being $x out of $fieldCounter");
+          if (kDebugMode) print("there's been an error: $parselement is empty and it shouldn't due to being $x out of $fieldCounter");
           toReturn = false;
         }
         x++;
       });
     }
     on NoSuchMethodError {
-      if(kDebugMode) print("idk what caused it lol");
+      if(kDebugMode) if (kDebugMode) print("idk what caused it lol");
       showSnackBar("Nazwy graczy nie mogą być puste");
     }
     return toReturn;
   }
 
-  void writeIndex(String newString, int entryIndex) {//I'm doing this only because the framework is retarded
-    if(kDebugMode) print("ack");
-    if(kDebugMode) print(newString);
-    if(kDebugMode) print(entryIndex);
-    if(kDebugMode) print("currently $groupNames");
-    if(kDebugMode) print("Setting state");
+  void writeIndex(String newString, int entryIndex) {
+    if (kDebugMode) print("ack");
+    if (kDebugMode) print(newString);
+    if (kDebugMode) print(entryIndex);
+    if (kDebugMode) print("currently $groupNames");
+    if (kDebugMode) print("Setting state");
     groupNames[entryIndex] = newString;
-    if(kDebugMode) print("now $groupNames");
+    if (kDebugMode) print("now $groupNames");
   }
 
   @override
@@ -110,8 +111,8 @@ class CreateKentState extends State<CreateKent> {
                 child: ElevatedButton(
                   onPressed: () {
                     if(properNames(groupNames)) {
-                      if(kDebugMode) print(groupNames);
-                      _scaffoldKey.currentState?.hideCurrentSnackBar();
+                      if(kDebugMode) if (kDebugMode) print(groupNames);
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       Navigator.of(context).pushNamed('/kent', arguments: groupNames + [fieldCounter.toString()]);
                     } else {
                       showSnackBar("Wygląda na to, że niektóre nazwy są puste lub po prostu za długie");
@@ -150,7 +151,7 @@ class InputRow extends StatelessWidget {
         playerOne = str;
         localInput = '$playerOne i $playerTwo';
         CreateKentState().writeIndex(localInput, rowIndex);
-        if(kDebugMode) print(localInput);
+        if(kDebugMode) if (kDebugMode) print(localInput);
       },
     )),
       Expanded(child:
@@ -162,7 +163,7 @@ class InputRow extends StatelessWidget {
           playerTwo = str;
           localInput = '$playerOne i $playerTwo';
           CreateKentState().writeIndex(localInput, rowIndex);
-          if(kDebugMode) print(localInput);
+          if(kDebugMode) if (kDebugMode) print(localInput);
         },
       )),
     ]));

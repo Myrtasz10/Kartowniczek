@@ -1,6 +1,6 @@
-// ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import './route_generator.dart';
@@ -39,7 +39,7 @@ class FirstPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: MyColors.appBarGreen,
         actions: <Widget>[IconButton(icon: const Icon(Icons.bar_chart_outlined), onPressed: (){
-          print(DateTime.now().toString());
+          if (kDebugMode) print(DateTime.now().toString());
           Navigator.of(context).pushNamed('/stats');
       })],
       ),

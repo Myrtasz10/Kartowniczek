@@ -1,9 +1,8 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:kartowniczek/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,14 +37,14 @@ class StatsState extends State<Stats> {
 
   void setStats() async {
     statRowsRaw = await _getStatsFromSharedPref();
-    print("Stats have been set");
-    print(statRowsRaw);
+    if (kDebugMode) print("Stats have been set");
+    if (kDebugMode) print(statRowsRaw);
     statRowsRaw.forEach((element) {
-      print("1. Iterating for: $element");
+      if (kDebugMode) print("1. Iterating for: $element");
       statRows.add(jsonDecode(element));
     });
     statRows.forEach((element) {
-      print("2. Iterating for: $element");
+      if (kDebugMode) print("2. Iterating for: $element");
       names.add(element['playerOne']);
       names.add(element['playerTwo']);
       if (element['playerCount'] >= 3) {
@@ -54,9 +53,9 @@ class StatsState extends State<Stats> {
           names.add(element['playerFour']);
         }
       } //TODO: puste daje na początek i robi się problem - trzeba rozpatrzyć player count (if playercount = 4 names.add playerfour
-      print(names);
+      if (kDebugMode) print(names);
       names.sort();
-      print(winIndex);
+      if (kDebugMode) print(winIndex);
       //nie powinno wywołać erroru ale nie jest idiotoodporne
       if (names[0] == element['playerWin']) {
         winIndex = 0;
@@ -67,24 +66,24 @@ class StatsState extends State<Stats> {
       } else if (names[3] == element['playerWin']) {
         winIndex = 3;
       }
-      print(winIndex);
+      if (kDebugMode) print(winIndex);
       if (pendingTables.isNotEmpty) {
         pendingTables.forEach((table) {
-          print("Got here!");
-          print(table);
+          if (kDebugMode) print("Got here!");
+          if (kDebugMode) print(table);
           if (table[1].trim().toLowerCase() == names[0].trim().toLowerCase() &&
               table[2].trim().toLowerCase() == names[1].trim().toLowerCase() &&
               table[3].trim().toLowerCase() == (element['playerCount'] >= 3 ? names[2].trim().toLowerCase() : "") &&
               table[4].trim().toLowerCase() == (element['playerCount'] == 4 ? names[3].trim().toLowerCase() : "")) {
             tableIndex = pendingTables.indexOf(table);
           } else {
-            print("Nope");
+            if (kDebugMode) print("Nope");
           }
         });
       }
-      print(tableIndex);
+      if (kDebugMode) print(tableIndex);
       if (tableIndex != -1) {
-        print("So it's not -1, it is $tableIndex");
+        if (kDebugMode) print("So it's not -1, it is $tableIndex");
         switch (winIndex) {
           case 0:
             pendingTables[tableIndex][5]++;
@@ -100,7 +99,7 @@ class StatsState extends State<Stats> {
             break;
         }
       } else {
-        print("it is indeed -1, adding...");
+        if (kDebugMode) print("it is indeed -1, adding...");
         pendingTables.add([
           element['playerCount'],
           names[0],
@@ -119,8 +118,8 @@ class StatsState extends State<Stats> {
       currentPlayerCount = -1;
     });
     pendingTables.forEach((table) {
-      print("The table is:");
-      print(table);
+      if (kDebugMode) print("The table is:");
+      if (kDebugMode) print(table);
       setState(() {
       tables.add(Party(table[0], table[1], table[2], table[3],
           table[4], table[5], table[6], table[7], table[8]));
@@ -132,7 +131,7 @@ class StatsState extends State<Stats> {
   void initState() {
     //TODO: delete comment
     // String statString = jsonEncode(statRow);
-    // print (statString);
+    // if (kDebugMode) print (statString);
     // Map<String, dynamic> statMap = jsonDecode(statString);
     // var sampleParty = StatRow.fromJson(statMap);
     setStats();

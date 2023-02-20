@@ -1,13 +1,12 @@
-// ignore_for_file: avoid_print
 
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:kartowniczek/gameScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './Colors.dart';
-import './gameScreen.dart';
 
 class Tysiac extends StatefulWidget {
   const Tysiac({Key? key}) : super(key: key);
@@ -25,14 +24,14 @@ class TysiacState extends State<Tysiac> {
       content: Text(popText),
       duration: const Duration(seconds: 3),
     );
-    _scaffoldKey.currentState?.showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   List<Widget> gameButtons = [];
   late BuildContext globalContext;
 
   printGameButtons() {
-    print(gameButtons);
+    if (kDebugMode) print(gameButtons);
   }
 
   Future<List<String>?> _getGamesFromSharedPref() async {
@@ -41,7 +40,7 @@ class TysiacState extends State<Tysiac> {
       return [];
     } else {
       final List<String>? savedGame = prefs.getStringList("gameFile");
-      print("Returning $savedGame");
+      if (kDebugMode) print("Returning $savedGame");
       return savedGame;
     }
   }
@@ -49,13 +48,13 @@ class TysiacState extends State<Tysiac> {
   Future<void> deleteGame(int toRemove) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String>? savedGame = prefs.getStringList("gameFile");
-    print(savedGame);
+    if (kDebugMode) print(savedGame);
     List<String> newSavedGame = [];
     savedGame?.forEach((element) {
       newSavedGame.add(element);
     });
     newSavedGame.removeAt(toRemove);
-    print("Removing from $savedGame at $toRemove. New Value is $newSavedGame");
+    if (kDebugMode) print("Removing from $savedGame at $toRemove. New Value is $newSavedGame");
     await prefs.setStringList("gameFile", newSavedGame);
   }
 
@@ -63,7 +62,7 @@ class TysiacState extends State<Tysiac> {
 
   void loadFromSharedPref() async {
     List<String>? savedGames = await _getGamesFromSharedPref();
-    print("added");
+    if (kDebugMode) print("added");
     setState(() {
       gameButtons.add(Container(
           padding: const EdgeInsets.all(20),
@@ -86,14 +85,14 @@ class TysiacState extends State<Tysiac> {
             ]),
           )));
     });
-    print("Running render for each $savedGames");
+    if (kDebugMode) print("Running render for each $savedGames");
     savedGames?.forEach((element) {
-      print("1 one");
-      print(myrtaszDecode(element));
+      if (kDebugMode) print("1 one");
+      if (kDebugMode) print(myrtaszDecode(element));
       List<Object> decoded = myrtaszDecode(element);
-      print("2 one");
-      print(decoded);
-      print("3 one");
+      if (kDebugMode) print("2 one");
+      if (kDebugMode) print(decoded);
+      if (kDebugMode) print("3 one");
       Color color = Colors.black; //pusta inicjalizacja
       Color textColor = Colors.white;
       switch (decoded[0]) {
@@ -124,29 +123,29 @@ class TysiacState extends State<Tysiac> {
           color = Colors.blueGrey;
           break;
       }
-      print("Pushing the following objects (in order):");
-      print(color);
-      print(decoded[1]);
-      print(decoded[2]);
-      print(decoded[5]);
-      print(decoded[6]);
-      print("Time:");
-      print(decoded[7]);
-      print("reported index:");
-      print(savedGames.indexOf(element));
+      if (kDebugMode) print("Pushing the following objects (in order):");
+      if (kDebugMode) print(color);
+      if (kDebugMode) print(decoded[1]);
+      if (kDebugMode) print(decoded[2]);
+      if (kDebugMode) print(decoded[5]);
+      if (kDebugMode) print(decoded[6]);
+      if (kDebugMode) print("Time:");
+      if (kDebugMode) print(decoded[7]);
+      if (kDebugMode) print("reported index:");
+      if (kDebugMode) print(savedGames.indexOf(element));
       setState(() {
         gameButtons.add(SaveGameButton(
             color, textColor, decoded[1] as List<List<int>>, decoded[2] as List<String>, decoded[5] as int, decoded[3] as List<int>, decoded[4] as List<int>, decoded[6] as int, savedGames.indexOf(element), decoded[7] as String));
       });
     });
-    print("Renderer finished with following output: $gameButtons");
-    print(gameButtons.length);
+    if (kDebugMode) print("Renderer finished with following output: $gameButtons");
+    if (kDebugMode) print(gameButtons.length);
   }
 
   @override
   void initState() {
     gameButtons = [const SizedBox(width: 0, height: 0)];
-    print("Inserting $context into global");
+    if (kDebugMode) print("Inserting $context into global");
     globalContext = context;
     loadFromSharedPref();
     super.initState();
@@ -196,16 +195,16 @@ class TysiacState extends State<Tysiac> {
             child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
-              print(gameButtons);
-              print("removing at $gameIndex");
-              print(gameButtons.length);
+              if (kDebugMode) print(gameButtons);
+              if (kDebugMode) print("removing at $gameIndex");
+              if (kDebugMode) print(gameButtons.length);
               gameButtons.removeAt(gameIndex);
               deleteGame(gameIndex);
             },
             child: const Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
       ],
     );
-    print("context is: ${_scaffoldKey.currentWidget}");
+    if (kDebugMode) print("context is: ${_scaffoldKey.currentWidget}");
     showDialog(context: Scaffold.of(context).context, builder: (_) => dialog);
   }
 }
@@ -305,7 +304,7 @@ class SaveGameButton extends StatelessWidget {
               }),
               onLongPress: () {
                 const MyNotification(title: "refresh").dispatch(context);
-                print("Deleting game at $indexInHierarchy");
+                if (kDebugMode) print("Deleting game at $indexInHierarchy");
                 TysiacState().deleteGame(indexInHierarchy);
                 //TODO: dispatch notification
               },
@@ -337,7 +336,7 @@ class MyNotification extends Notification {
 //     int playerCount) {
 //   String myrtaszString = color.toString() + '#';
 //   for (int x = 0; x <= 3; x++) {
-//     print("running for $x");
+//     if (kDebugMode) print("running for $x");
 //     score[x].forEach((subElement) {
 //       myrtaszString += subElement.toString() + ' ';
 //     });
@@ -359,7 +358,7 @@ class MyNotification extends Notification {
 //   myrtaszString += playerCount.toString();
 //   myrtaszString += '#';
 //   myrtaszString += roundsCompleting.toString();
-//   print('Blended game data into the following myrtaszString: $myrtaszString');
+//   if (kDebugMode) print('Blended game data into the following myrtaszString: $myrtaszString');
 //   return myrtaszString;
 // }
 

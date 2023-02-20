@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +31,7 @@ class GameScreenState extends State<GameScreen> {
       content: Text(popText),
       duration: const Duration(seconds: 3),
     );
-    _scaffoldKey.currentState?.showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void readBool(String key) async {
@@ -43,7 +44,7 @@ class GameScreenState extends State<GameScreen> {
   }
 
   Future<bool> _onWillPop() async {
-    print("Quit dialog shown");
+    if (kDebugMode) print("Quit dialog shown");
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -101,19 +102,19 @@ class GameScreenState extends State<GameScreen> {
   Future<void> deleteGames(String timeIndex) async {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getStringList("gameFile");
-    print(savedGame);
+    if (kDebugMode) print(savedGame);
     List<String> newSavedGame = [];
     savedGame?.forEach((element) {
-      print("we lookin' at:");
-      print(element.substring(element.lastIndexOf('#')+1));
+      if (kDebugMode) print("we lookin' at:");
+      if (kDebugMode) print(element.substring(element.lastIndexOf('#')+1));
       if (element.substring(element.lastIndexOf('#')+1) != timeIndex) {
         newSavedGame.add(element);
       } else {
-        print("This boi rejected:");
-        print(element);
+        if (kDebugMode) print("This boi rejected:");
+        if (kDebugMode) print(element);
       }
     });
-    print("Removing from $savedGame at... I don't really know. Anyway, the new Value is $newSavedGame");
+    if (kDebugMode) print("Removing from $savedGame at... I don't really know. Anyway, the new Value is $newSavedGame");
     await prefs.setStringList("gameFile", newSavedGame);
   }
 
@@ -160,7 +161,7 @@ class GameScreenState extends State<GameScreen> {
   void getSave() async {
     var tempList = await _getGamesFromSharedPref();
     savedGame = tempList[0];
-    print(savedGame);
+    if (kDebugMode) print(savedGame);
   }
 
   void _showSavePrompt() {
@@ -181,7 +182,7 @@ class GameScreenState extends State<GameScreen> {
                     fillColor: Colors.green,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      print(selected);
+                      if (kDebugMode) print(selected);
                       selected = 1;
                       Navigator.pop(context);
                       _showSavePrompt();
@@ -195,7 +196,7 @@ class GameScreenState extends State<GameScreen> {
                     fillColor: Colors.blue,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      print(selected);
+                      if (kDebugMode) print(selected);
                       selected = 2;
                       Navigator.pop(context);
                       _showSavePrompt();
@@ -209,7 +210,7 @@ class GameScreenState extends State<GameScreen> {
                     fillColor: Colors.purple,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      print(selected);
+                      if (kDebugMode) print(selected);
                       selected = 3;
                       Navigator.pop(context);
                       _showSavePrompt();
@@ -223,7 +224,7 @@ class GameScreenState extends State<GameScreen> {
                     fillColor: Colors.pink,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      print(selected);
+                      if (kDebugMode) print(selected);
                       selected = 4;
                       Navigator.pop(context);
                       _showSavePrompt();
@@ -242,7 +243,7 @@ class GameScreenState extends State<GameScreen> {
                     fillColor: Colors.yellow,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      print(selected);
+                      if (kDebugMode) print(selected);
                       selected = 5;
                       Navigator.pop(context);
                       _showSavePrompt();
@@ -256,7 +257,7 @@ class GameScreenState extends State<GameScreen> {
                     fillColor: Colors.red,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      print(selected);
+                      if (kDebugMode) print(selected);
                       selected = 6;
                       Navigator.pop(context);
                       _showSavePrompt();
@@ -270,7 +271,7 @@ class GameScreenState extends State<GameScreen> {
                     fillColor: Colors.white,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      print(selected);
+                      if (kDebugMode) print(selected);
                       selected = 7;
                       Navigator.pop(context);
                       _showSavePrompt();
@@ -284,7 +285,7 @@ class GameScreenState extends State<GameScreen> {
                     fillColor: Colors.blueGrey,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      print(selected);
+                      if (kDebugMode) print(selected);
                       selected = 8;
                       Navigator.pop(context);
                       _showSavePrompt();
@@ -306,7 +307,7 @@ class GameScreenState extends State<GameScreen> {
             child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
-              print("Saving following scores: $score");
+              if (kDebugMode) print("Saving following scores: $score");
               addGame(toMyrtaszString(
                   score,
                   roundsCompleting,
@@ -316,7 +317,7 @@ class GameScreenState extends State<GameScreen> {
                   selected,
                   (double.parse(playerCount)).toInt(),
               timeIndex));
-              print("popped");
+              if (kDebugMode) print("popped");
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.pop(context);
@@ -343,10 +344,10 @@ class GameScreenState extends State<GameScreen> {
             child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
-              print("Analyzing data");
-              print(roundsCompleting);
-              print(score);
-              print(rounds);
+              if (kDebugMode) print("Analyzing data");
+              if (kDebugMode) print(roundsCompleting);
+              if (kDebugMode) print(score);
+              if (kDebugMode) print(rounds);
               --roundsCompleting;
               score[0].removeLast();
               score[1].removeLast();
@@ -414,7 +415,7 @@ class GameScreenState extends State<GameScreen> {
                         border: OutlineInputBorder(), hintText: "0"),
                     onChanged: (String str) {
                       playerOneAdd = str;
-                      print(playerOneAdd);
+                      if (kDebugMode) print(playerOneAdd);
                     },
                   )),
               IconButton(
@@ -426,7 +427,7 @@ class GameScreenState extends State<GameScreen> {
                     errorText = "";
                     playerGiving[0] = !playerGiving[0];
                     playerGiving = [playerGiving[0], false, false, false];
-                    print(playerGiving[0]);
+                    if (kDebugMode) print(playerGiving[0]);
                     Navigator.of(context).pop();
                     _showAlert();
                   })
@@ -453,7 +454,7 @@ class GameScreenState extends State<GameScreen> {
                     ),
                     onChanged: (String str) {
                       playerTwoAdd = str;
-                      print(playerTwoAdd);
+                      if (kDebugMode) print(playerTwoAdd);
                     },
                   )),
               IconButton(
@@ -465,7 +466,7 @@ class GameScreenState extends State<GameScreen> {
                     errorText = "";
                     playerGiving[1] = !playerGiving[1];
                     playerGiving = [false, playerGiving[1], false, false];
-                    print(playerGiving[1]);
+                    if (kDebugMode) print(playerGiving[1]);
                     Navigator.of(context).pop();
                     _showAlert();
                   })
@@ -493,7 +494,7 @@ class GameScreenState extends State<GameScreen> {
                           ),
                           onChanged: (String str) {
                             playerThreeAdd = str;
-                            print(playerThreeAdd);
+                            if (kDebugMode) print(playerThreeAdd);
                           },
                         )),
                     IconButton(
@@ -505,7 +506,7 @@ class GameScreenState extends State<GameScreen> {
                           errorText = "";
                           playerGiving[2] = !playerGiving[2];
                           playerGiving = [false, false, playerGiving[2], false];
-                          print(playerGiving[2]);
+                          if (kDebugMode) print(playerGiving[2]);
                           Navigator.of(context).pop();
                           _showAlert();
                         })
@@ -534,7 +535,7 @@ class GameScreenState extends State<GameScreen> {
                           ),
                           onChanged: (String str) {
                             playerFourAdd = str;
-                            print(playerFourAdd);
+                            if (kDebugMode) print(playerFourAdd);
                           },
                         )),
                     IconButton(
@@ -546,7 +547,7 @@ class GameScreenState extends State<GameScreen> {
                           errorText = "";
                           playerGiving[3] = !playerGiving[3];
                           playerGiving = [false, false, false, playerGiving[3]];
-                          print(playerGiving[3]);
+                          if (kDebugMode) print(playerGiving[3]);
                           Navigator.of(context).pop();
                           _showAlert();
                         })
@@ -579,7 +580,7 @@ class GameScreenState extends State<GameScreen> {
             child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
-              print(score);
+              if (kDebugMode) print(score);
               if (playerOneAdd == "") {
                 playerOneAdd = "0";
               }
@@ -596,7 +597,7 @@ class GameScreenState extends State<GameScreen> {
                   playerGiveRemaining[1] == 0 && playerGiving[1] ||
                   playerGiveRemaining[2] == 0 && playerGiving[2] ||
                   playerGiveRemaining[3] == 0 && playerGiving[3]) {
-                print("Intercepted");
+                if (kDebugMode) print("Intercepted");
                 errorText = "Ten gracz nie może już więcej dawać po 60";
                 Navigator.pop(context);
                 _showAlert();
@@ -637,7 +638,7 @@ class GameScreenState extends State<GameScreen> {
                   playerGiving[1] == false &&
                   playerGiving[2] == false &&
                   playerGiving[3] == false) {
-                print(playerOneAdd +
+                if (kDebugMode) print(playerOneAdd +
                     playerTwoAdd +
                     playerThreeAdd +
                     playerFourAdd);
@@ -759,7 +760,7 @@ class GameScreenState extends State<GameScreen> {
                 });
 
                 Future.delayed(const Duration(milliseconds: 250), () {
-                  print("Scrolling at 0");
+                  if (kDebugMode) print("Scrolling at 0");
                   scoreListController
                       .jumpTo(scoreListController.position.maxScrollExtent);
                 });
@@ -782,7 +783,7 @@ class GameScreenState extends State<GameScreen> {
                   winner = 3;
                 }
                 Navigator.pop(context);
-                print(rounds);
+                if (kDebugMode) print(rounds);
                 // ignore: invalid_use_of_protected_member
                 (context as Element).reassemble();
               }
@@ -825,11 +826,11 @@ class GameScreenState extends State<GameScreen> {
       playerGiveHistory = decoded[4] as List<int>;
       roundsCompleting = decoded[6] as int;
       timeIndex = decoded[7] as String;
-      print("Will now render for $score");
+      if (kDebugMode) print("Will now render for $score");
       rounds.add(ScoreRow(
           1, score[0][0], score[1][0], score[2][0], score[3][0], decoded[5] as int));
       for (int i = 1; i < roundsCompleting - 1; i++) {
-        print(i);
+        if (kDebugMode) print(i);
         for (int j = 0; j < i; j++) {
           //ostra czy słaba?
           renderingScores[0] += score[0][j];
@@ -847,8 +848,8 @@ class GameScreenState extends State<GameScreen> {
         renderingScores = [0, 0, 0, 0];
       }
     }
-    print(playerGiveRemaining);
-    print(rounds);
+    if (kDebugMode) print(playerGiveRemaining);
+    if (kDebugMode) print(rounds);
     super.initState();
   }
 
@@ -1101,8 +1102,8 @@ class GameScreenState extends State<GameScreen> {
                                 child: ElevatedButton(
                                 onPressed: () {
                                   _showAlert();
-                                  print(playerGiving[0]);
-                                  print(MediaQuery.of(context).size.width);
+                                  if (kDebugMode) print(playerGiving[0]);
+                                  if (kDebugMode) print(MediaQuery.of(context).size.width);
                                 },
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
@@ -1113,16 +1114,16 @@ class GameScreenState extends State<GameScreen> {
                                 child: ElevatedButton(
                                 onPressed: () {
                                   addStat(jsonEncode(StatRow((double.parse(playerCount)).toInt(), playerName[0], playerName[1], playerName[2], playerName[3], playerName[winner])));
-                                  print("Added ${jsonEncode(StatRow((double.parse(playerCount)).toInt(), playerName[0], playerName[1], playerName[2], playerName[3], playerName[winner]))}");
+                                  if (kDebugMode) print("Added ${jsonEncode(StatRow((double.parse(playerCount)).toInt(), playerName[0], playerName[1], playerName[2], playerName[3], playerName[winner]))}");
                                   Navigator.popUntil(context, ModalRoute.withName('/'));
                                   Navigator.of(context).pushNamed('/');
-                                  print("Will now try and delete corresponding save files");
-                                  print("Autodelete: ${settings.autoDelete}");
+                                  if (kDebugMode) print("Will now try and delete corresponding save files");
+                                  if (kDebugMode) print("Autodelete: ${settings.autoDelete}");
                                   //usunięcie wszystkich odpowiadających plików z zapisem
                                   if (settings.autoDelete) {
-                                    print("Running deleteGames");
+                                    if (kDebugMode) print("Running deleteGames");
                                     deleteGames(timeIndex);
-                                    print("Obsolete saves deleted successfully");
+                                    if (kDebugMode) print("Obsolete saves deleted successfully");
                                   }
                                   //DONE: jak zrobić żeby dało do main screen? pop all cards? //to powinno zadziałać
                                 },
@@ -1219,8 +1220,6 @@ class AppSettings {
   AppSettings({this.autoDelete = false});
 }
 
-//TODO: json doesn't support complex data types such as widgets. So it's not impossible, it's just a fuck ton of data to work with. fuck my life. Anyway, it will be okay if you just save it all and then rebuild it all in initstate. it'll be hundreds lines of code.
-
 /*
 class GameScreen extends StatefulWidget {
   final String playerOneName;
@@ -1245,13 +1244,11 @@ class GameScreen extends StatefulWidget {
   _GameScreenState createState() => _GameScreenState();
 }
  */
-//TODO: rounds.pop and recover score values from rounds[i] properties, saving games, color if saved, give a nice palette of 8 or so
-//TODO: don't mess with passing arguments. You'll simply call everything in on initState();
 List<Object> myrtaszDecode(String myrtaszString) {
-  print(myrtaszString);
+  if (kDebugMode) print(myrtaszString);
   List<String> firstInstance = myrtaszString.split('#');
-  print(firstInstance);
-  print("The first instance ^");
+  if (kDebugMode) print(firstInstance);
+  if (kDebugMode) print("The first instance ^");
   int color = int.parse(firstInstance[0]);
   List<String> placeHolder = firstInstance[1].split(' ');
   List<List<int>> scoreRead = [[], [], [], []];
@@ -1268,7 +1265,7 @@ List<Object> myrtaszDecode(String myrtaszString) {
   List<int> playerGiveRemainingRead = [];
   placeHolder.forEach((element) {
     if (element.isNotEmpty) {
-      print(element);
+      if (kDebugMode) print(element);
       playerGiveRemainingRead.add(int.parse(element));
     }
   });
@@ -1305,7 +1302,7 @@ String toMyrtaszString(
     String timeIndex) {
   String myrtaszString = '$color#';
   for (int x = 0; x <= 3; x++) {
-    print("running for $x");
+    if (kDebugMode) print("running for $x");
     score[x].forEach((subElement) {
       myrtaszString += '$subElement ';
     });
@@ -1329,7 +1326,7 @@ String toMyrtaszString(
   myrtaszString += roundsCompleting.toString();
   myrtaszString += '#';
   myrtaszString += timeIndex.toString();//timeIndex MUSI być ostatni, opiera się na tym działanie usuwania
-  print('Blended game data into the following myrtaszString: $myrtaszString');
+  if (kDebugMode) print('Blended game data into the following myrtaszString: $myrtaszString');
   return myrtaszString;
 }
 

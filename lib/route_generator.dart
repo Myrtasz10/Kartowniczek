@@ -30,7 +30,7 @@ class RouteGenerator {
       case '/stats':
         return MaterialPageRoute(builder: (_) => const Stats());
       case '/tysiacsettings':
-        return MaterialPageRoute(builder: (_) => TysiacSettings());
+        return MaterialPageRoute(builder: (_) => const TysiacSettings());
       default:
         return _errorRoute();
     }
