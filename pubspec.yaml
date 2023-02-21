@@ -1,5 +1,5 @@
 name: kartowniczek
-description: A new Flutter project.
+description: Kartowniczek to aplikacja ułatwiająca śledzenie przebiegu odbywającej się fizycznie gry karcianej. Pożegnaj kartkę papieru i długopis! Wpisz wartości, a kartowniczek policzy punkty i przechowa dla ciebie zapis gry. Obecnie obsługiwane gry to tysiąc i kent.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

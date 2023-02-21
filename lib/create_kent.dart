@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import './Colors.dart';
+import './colors.dart';
 
 class CreateKent extends StatefulWidget {
   const CreateKent({Key? key}) : super(key: key);

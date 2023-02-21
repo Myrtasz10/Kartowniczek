@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import './Colors.dart';
+import './colors.dart';
 
 class Kent extends StatefulWidget {
   final List<String> data;
@@ -50,10 +50,10 @@ class KentState extends State<Kent> {
     scores.fillRange(0, 10, 0);
     if (kDebugMode) print(widget.data);
     int x = 0;
-    teams.forEach((element) {
+    for (var element in teams) {
       if (kDebugMode) print("Adding $element with index $x");
       teamRows.add(TeamRow(element, x++, updateScores));
-    });
+    }
     super.initState();
   }
 
@@ -81,7 +81,7 @@ class TeamRow extends StatefulWidget {
   final int teamIndex;
   final Function pushToLogs;
 
-  const TeamRow(this.teamName, this.teamIndex, this.pushToLogs);
+  const TeamRow(this.teamName, this.teamIndex, this.pushToLogs, {super.key});
 
 //  static int localScore = 0;
 

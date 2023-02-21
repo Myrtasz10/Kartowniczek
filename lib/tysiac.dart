@@ -1,12 +1,11 @@
 
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:kartowniczek/gameScreen.dart';
+import 'package:kartowniczek/game_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './Colors.dart';
+import './colors.dart';
 
 class Tysiac extends StatefulWidget {
   const Tysiac({Key? key}) : super(key: key);
@@ -123,23 +122,27 @@ class TysiacState extends State<Tysiac> {
           color = Colors.blueGrey;
           break;
       }
-      if (kDebugMode) print("Pushing the following objects (in order):");
-      if (kDebugMode) print(color);
-      if (kDebugMode) print(decoded[1]);
-      if (kDebugMode) print(decoded[2]);
-      if (kDebugMode) print(decoded[5]);
-      if (kDebugMode) print(decoded[6]);
-      if (kDebugMode) print("Time:");
-      if (kDebugMode) print(decoded[7]);
-      if (kDebugMode) print("reported index:");
-      if (kDebugMode) print(savedGames.indexOf(element));
+      if(kDebugMode) {
+        print("Pushing the following objects (in order):");
+        print(color);
+        print(decoded[1]);
+        print(decoded[2]);
+        print(decoded[5]);
+        print(decoded[6]);
+        print("Time:");
+        print(decoded[7]);
+        print("reported index:");
+        print(savedGames.indexOf(element));
+      }
       setState(() {
         gameButtons.add(SaveGameButton(
             color, textColor, decoded[1] as List<List<int>>, decoded[2] as List<String>, decoded[5] as int, decoded[3] as List<int>, decoded[4] as List<int>, decoded[6] as int, savedGames.indexOf(element), decoded[7] as String));
       });
     });
-    if (kDebugMode) print("Renderer finished with following output: $gameButtons");
-    if (kDebugMode) print(gameButtons.length);
+    if (kDebugMode) {
+      print("Renderer finished with following output: $gameButtons");
+      print(gameButtons.length);
+    }
   }
 
   @override
@@ -235,13 +238,13 @@ class SaveGameButton extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.only(bottom: 7, top: 7),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-            Expanded (flex: 5, child: Text("Runda $roundCount", style: TextStyle(color: textColor))),
+            Expanded (flex: 5, child: Text("Runda $roundCount", style: TextStyle(color: textColor), textAlign: TextAlign.center)),
             Expanded(
               flex: 17,
                 child: Column(children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start, //major UI change //reorganizacja kolumn/rzędów była potrzebna bo inaczej by tego nie było chyba że zostawimy to useless
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                 Expanded(child: Text(players[0].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)),
                 Expanded(child: Text(players[1].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)),
@@ -270,34 +273,6 @@ class SaveGameButton extends StatelessWidget {
                 ),
               ])
             ])),
-            // Expanded(flex: 3,  child://TODO: coś z fittedbox może?
-            // Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-            //   Text(players[0].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center),
-            //   Text(sumAll(scores[0]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)
-            // ], mainAxisSize: MainAxisSize.max,)),
-            // Expanded(flex: 3, child:
-            // Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-            //   Text(players[1].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center),
-            //   Text(sumAll(scores[1]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)
-            // ], mainAxisSize: MainAxisSize.max)),
-            // playerCount >= 3
-            //     ? Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-            //         Text(players[2].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center),
-            //         Text(sumAll(scores[2]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)
-            //       ],mainAxisSize: MainAxisSize.max))
-            //     : Container(
-            //         height: 0,
-            //         width: 0,
-            //       ),
-            // playerCount == 4
-            //     ? Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-            //         Text(players[3].toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center),
-            //         Text(sumAll(scores[3]).toString(), style: TextStyle(color: textColor), textAlign: TextAlign.center)
-            //       ], mainAxisSize: MainAxisSize.max,))
-            //     : Container(
-            //         height: 0,
-            //         width: 0,
-            //       ),
             Expanded(flex: 2, child: GestureDetector(
               child: IconButton(icon: const Icon(Icons.delete), color: textColor, onPressed: () {
                 const MyNotification(title: "snackbar").dispatch(context);
@@ -326,43 +301,3 @@ class MyNotification extends Notification {
 
   const MyNotification({this.title = ""});
 }
-// String toMyrtaszString(
-//     List<List<int>> score,
-//     int roundsCompleting,
-//     List<String> playerNames,
-//     List<int> playerGiveRemaining,
-//     List<int> playerGiveHistory,
-//     int color,
-//     int playerCount) {
-//   String myrtaszString = color.toString() + '#';
-//   for (int x = 0; x <= 3; x++) {
-//     if (kDebugMode) print("running for $x");
-//     score[x].forEach((subElement) {
-//       myrtaszString += subElement.toString() + ' ';
-//     });
-//     myrtaszString += '#';
-//   }
-//   playerNames.forEach((element) {
-//     myrtaszString += element + '+';
-//   });
-//   myrtaszString = myrtaszString.substring(0, myrtaszString.length - 1);
-//   myrtaszString += '#';
-//   playerGiveRemaining.forEach((element) {
-//     myrtaszString += element.toString() + ' ';
-//   });
-//   myrtaszString += '#';
-//   playerGiveHistory.forEach((element) {
-//     myrtaszString += element.toString() + ' ';
-//   });
-//   myrtaszString += '#';
-//   myrtaszString += playerCount.toString();
-//   myrtaszString += '#';
-//   myrtaszString += roundsCompleting.toString();
-//   if (kDebugMode) print('Blended game data into the following myrtaszString: $myrtaszString');
-//   return myrtaszString;
-// }
-
-//TODO: Prevent misclick leave without saving
-//TODO: you need to access global context somehow. - maybe just delete stuff and reload huh?
-
-//TODO: more even distribution of players on save widget

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import './gameScreen.dart';
+import './game_screen.dart';
 import './main.dart';
 import './tysiac.dart';
-import './gameCreationScreen.dart';
-import './createKent.dart';
+import './game_creation_screen.dart';
+import './create_kent.dart';
 import './kent.dart';
 import './stats.dart';
-import './tysiacSettings.dart';
+import './tysiac_settings.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

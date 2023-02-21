@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:kartowniczek/Colors.dart';
+import 'package:kartowniczek/colors.dart';
 
 class Create extends StatefulWidget {
   const Create({Key? key}) : super(key: key);

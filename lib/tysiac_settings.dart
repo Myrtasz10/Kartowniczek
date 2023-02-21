@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kartowniczek/Colors.dart';
+import 'package:kartowniczek/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TysiacSettings extends StatefulWidget {

@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:kartowniczek/Colors.dart';
+import 'package:kartowniczek/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Stats extends StatefulWidget {
@@ -39,11 +38,11 @@ class StatsState extends State<Stats> {
     statRowsRaw = await _getStatsFromSharedPref();
     if (kDebugMode) print("Stats have been set");
     if (kDebugMode) print(statRowsRaw);
-    statRowsRaw.forEach((element) {
+    for (var element in statRowsRaw) {
       if (kDebugMode) print("1. Iterating for: $element");
       statRows.add(jsonDecode(element));
-    });
-    statRows.forEach((element) {
+    }
+    for (var element in statRows) {
       if (kDebugMode) print("2. Iterating for: $element");
       names.add(element['playerOne']);
       names.add(element['playerTwo']);
@@ -68,7 +67,7 @@ class StatsState extends State<Stats> {
       }
       if (kDebugMode) print(winIndex);
       if (pendingTables.isNotEmpty) {
-        pendingTables.forEach((table) {
+        for (var table in pendingTables) {
           if (kDebugMode) print("Got here!");
           if (kDebugMode) print(table);
           if (table[1].trim().toLowerCase() == names[0].trim().toLowerCase() &&
@@ -79,7 +78,7 @@ class StatsState extends State<Stats> {
           } else {
             if (kDebugMode) print("Nope");
           }
-        });
+        }
       }
       if (kDebugMode) print(tableIndex);
       if (tableIndex != -1) {
@@ -116,15 +115,15 @@ class StatsState extends State<Stats> {
       winIndex = -1;
       tableIndex = -1;
       currentPlayerCount = -1;
-    });
-    pendingTables.forEach((table) {
+    }
+    for (var table in pendingTables) {
       if (kDebugMode) print("The table is:");
       if (kDebugMode) print(table);
       setState(() {
       tables.add(Party(table[0], table[1], table[2], table[3],
           table[4], table[5], table[6], table[7], table[8]));
       });
-    });
+    }
   }
 
   @override

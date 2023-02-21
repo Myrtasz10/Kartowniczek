@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './Colors.dart';
+import './colors.dart';
 import './stats.dart';
 
 class GameScreen extends StatefulWidget {
@@ -638,10 +638,12 @@ class GameScreenState extends State<GameScreen> {
                   playerGiving[1] == false &&
                   playerGiving[2] == false &&
                   playerGiving[3] == false) {
-                if (kDebugMode) print(playerOneAdd +
-                    playerTwoAdd +
-                    playerThreeAdd +
-                    playerFourAdd);
+                if (kDebugMode) {
+                  print(playerOneAdd +
+                      playerTwoAdd +
+                      playerThreeAdd +
+                      playerFourAdd);
+                }
                 errorText =
                     "Kiedy suma punktów gracza przekracza 900, może on zdobyć punkty tylko poprzez wygranie rundy, w której był rozgrywającym.";
                 Navigator.pop(context);
