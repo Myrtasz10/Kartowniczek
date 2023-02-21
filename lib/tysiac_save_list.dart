@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:kartowniczek/game_screen.dart';
+import 'package:kartowniczek/tysiac_game_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './colors.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import './game_screen.dart';
+import './tysiac_game_screen.dart';
 import './main.dart';
-import './tysiac.dart';
-import './game_creation_screen.dart';
+import './tysiac_save_list.dart';
+import './tysiac_creation.dart';
 import './create_kent.dart';
-import './kent.dart';
+import './kent_game_screen.dart';
 import './stats.dart';
 import './tysiac_settings.dart';
 

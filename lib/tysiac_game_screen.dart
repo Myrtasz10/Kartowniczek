@@ -819,7 +819,7 @@ class GameScreenState extends State<GameScreen> {
         int.parse(double.parse(playerGive).round().toString()),
       ];
     } else {
-      //problem z przypisaniem po migracji? użyj decoded[i] as List<int> jako jawne castowanie
+      //problem z przypisaniem po migracji? użyj decoded[i] as List<int> jako jawne rzutowanie
       List<Object> decoded = myrtaszDecode(widget.data[1]);
       score = decoded[1] as List<List<int>>;
       playerCount = decoded[5].toString();
@@ -1150,7 +1150,7 @@ class ScoreRow extends StatelessWidget {
   final int playerCount;
 
   const ScoreRow(this.round, this.playerOneScore, this.playerTwoScore,
-      this.playerThreeScore, this.playerFourScore, this.playerCount);
+      this.playerThreeScore, this.playerFourScore, this.playerCount, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -1218,34 +1218,11 @@ class ScoreRow extends StatelessWidget {
 
 class AppSettings {
   bool autoDelete;
-
   AppSettings({this.autoDelete = false});
 }
 
-/*
-class GameScreen extends StatefulWidget {
-  final String playerOneName;
-//  final String playerTwoName;
-//  final String playerThreeName;
-//  final String playerFourName;
-//  final int totalPlayerCount;
-//  final int giveCount;
-
-  GameScreen(
-      {Key key,
-      @required this.playerOneName,
-//      @required this.playerTwoName,
-//      @required this.playerThreeName,
-//      @required this.playerFourName,
-//      @required this.totalPlayerCount,
-//      @required this.giveCount
-      })
-      : super(key: key);
-
-  @override
-  _GameScreenState createState() => _GameScreenState();
-}
- */
+//TODO: zmienić w JSON
+//deserializacja
 List<Object> myrtaszDecode(String myrtaszString) {
   if (kDebugMode) print(myrtaszString);
   List<String> firstInstance = myrtaszString.split('#');
@@ -1292,7 +1269,9 @@ List<Object> myrtaszDecode(String myrtaszString) {
     timeIndex
   ];
 }
-//jak NIE implementować serializacji
+
+//TODO: zmienić w JSON
+//serializacja
 String toMyrtaszString(
     List<List<int>> score,
     int roundsCompleting,
@@ -1332,15 +1311,6 @@ String toMyrtaszString(
   return myrtaszString;
 }
 
-//3#
-// 60 50 0 0 #
-// 0 0 60 0 #
-// 60 0 0 70 #
-// 0 0 0 #
-// po+pp+pc+#
-// 3 2 3 3 #
-// 1 -1 -1 -1 #
-//3
 sumAll(List<int> listName) {
   int sum = 0;
   listName.forEach((element) {
