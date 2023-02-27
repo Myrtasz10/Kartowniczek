@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import './tysiac_game_screen.dart';
 import './main.dart';
 import './tysiac_save_list.dart';
-import './tysiac_creation.dart';
-import './create_kent.dart';
+import './tysiac_create.dart';
+import './kent_create.dart';
 import './kent_game_screen.dart';
 import './stats.dart';
 import './tysiac_settings.dart';
@@ -15,10 +15,7 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(builder: (_) => const FirstPage());
       case '/play':
-        //if (args is String) {
         return MaterialPageRoute(builder: (_) => GameScreen(data: args as List<String>));
-      //}
-      //return _errorRoute();
       case '/create':
         return MaterialPageRoute(builder: (_) => const Create());
       case '/tysiąc':

@@ -87,8 +87,8 @@ class TysiacState extends State<Tysiac> {
     if (kDebugMode) print("Running render for each $savedGames");
     savedGames?.forEach((element) {
       if (kDebugMode) print("1 one");
-      if (kDebugMode) print(myrtaszDecode(element));
-      List<Object> decoded = myrtaszDecode(element);
+      if (kDebugMode) print(saveGameDecode(element));
+      List<Object> decoded = saveGameDecode(element);
       if (kDebugMode) print("2 one");
       if (kDebugMode) print(decoded);
       if (kDebugMode) print("3 one");
@@ -289,7 +289,7 @@ class SaveGameButton extends StatelessWidget {
             //TODO: tutaj
             Navigator.of(context).pushNamed('/play', arguments: <String>[
               '-1',
-              toMyrtaszString(scores, roundCount, players, playerGiveRemaining, playerGiveHistory, 0, playerCount, timeIndex)
+              saveGameEncode(scores, roundCount, players, playerGiveRemaining, playerGiveHistory, 0, playerCount, timeIndex)
             ]);
           },
         ));

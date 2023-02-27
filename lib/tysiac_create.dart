@@ -156,6 +156,7 @@ class _CreateState extends State<Create> {
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColors.cardRed)),
                   onPressed: () {
                     if(playerOne != '' && playerTwo != ''  && !(playerThree == '' && playerCountValue >= 3) && !(playerFour == '' && playerCountValue == 4)) {
+                      Navigator.of(context).pop();
                       Navigator.of(context).pushNamed('/play', arguments: <String> [playerCountValue.toString(), playerOne, playerTwo, playerThree, playerFour, giveCountValue.toString(), DateTime.now().toString()]);
                     } else {
                       showSnackBar("Nazwy graczy nie mogą być puste");

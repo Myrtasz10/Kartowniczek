@@ -22,8 +22,6 @@ class StatsState extends State<Stats> {
   List<List<dynamic>> pendingTables = [];
   int tableIndex = -1;
 
-  //StatRow statRow = new StatRow(4, "xada", "daxa", "saxa", "waxa", "xada");
-
   Future<List<String>> _getStatsFromSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
     final savedStats = prefs.getStringList(
@@ -128,11 +126,6 @@ class StatsState extends State<Stats> {
 
   @override
   void initState() {
-    //TODO: delete comment
-    // String statString = jsonEncode(statRow);
-    // if (kDebugMode) print (statString);
-    // Map<String, dynamic> statMap = jsonDecode(statString);
-    // var sampleParty = StatRow.fromJson(statMap);
     setStats();
     super.initState();
   }
@@ -273,16 +266,6 @@ class Party extends StatelessWidget {
         )));
   }
 }
-
-// String toStatString (
-// int playerCount,
-// String playerWin,
-// String playerTwo,
-// String playerThree,
-// String playerFour
-// ) {
-//   return playerCount.toString() + '#' + playerWin + '#' + playerTwo + '#' + playerThree + '#' + playerFour;
-// }
 
 class StatRow {
   final int playerCount;

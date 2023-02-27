@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_if (kDebugMode) print
-
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -20,15 +18,16 @@ class Kent extends StatefulWidget {
 class KentState extends State<Kent> {
   static List<int> scores = List<int>.filled(10, -1, growable: false);
   List<Widget> teamRows = [const SizedBox(width: 0, height: 0)];
-
   List<Widget> dataLogs = [const Text("tutaj będą pojawiać się zmiany")];
-
   var updateController = ScrollController();
 
   void updateScores(int hierarchyIndex, int change, int localCount) {
-    if (kDebugMode) print("1 - adding a change to LOGS");
-    if (kDebugMode) print("2 - for ${scores[hierarchyIndex]}");
-    if (kDebugMode) print("3 - changing value $localCount by $change, equals ${localCount + change}");
+    if (kDebugMode) {
+      print("1 - adding a change to LOGS");
+      print("2 - for ${scores[hierarchyIndex]}");
+      print("3 - changing value $localCount by $change, equals ${localCount +
+          change}");
+    }
     setState(() {
       dataLogs.add(Text("${widget.data[hierarchyIndex]} ${change > 0 ? "+" : ""}$change punkt(y), zmiana z $localCount na ${localCount + change} o ${((DateTime.now().toString()).split(' ')[1]).split('.')[0]}"));
       Future.delayed(const Duration(milliseconds: 50), () {

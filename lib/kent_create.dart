@@ -36,10 +36,10 @@ class CreateKentState extends State<CreateKent> {
       // ignore: missing_return
       names.forEach((element) {
         if (kDebugMode) print(element);
-        String parselement = element.replaceAll(' i ', '');
-        parselement = parselement.replaceAll(' ', '');
-        if (x < fieldCounter && parselement.isEmpty) {
-          if (kDebugMode) print("there's been an error: $parselement is empty and it shouldn't due to being $x out of $fieldCounter");
+        String parseElement = element.replaceAll(' i ', '');
+        parseElement = parseElement.replaceAll(' ', '');
+        if (x < fieldCounter && parseElement.isEmpty) {
+          if (kDebugMode) print("error: $parseElement is empty and it shouldn't due to being $x out of $fieldCounter");
           toReturn = false;
         }
         x++;
@@ -53,11 +53,13 @@ class CreateKentState extends State<CreateKent> {
   }
 
   void writeIndex(String newString, int entryIndex) {
-    if (kDebugMode) print("ack");
-    if (kDebugMode) print(newString);
-    if (kDebugMode) print(entryIndex);
-    if (kDebugMode) print("currently $groupNames");
-    if (kDebugMode) print("Setting state");
+    if (kDebugMode) {
+      print("ack");
+      print(newString);
+      print(entryIndex);
+      print("currently $groupNames");
+      print("Setting state");
+    }
     groupNames[entryIndex] = newString;
     if (kDebugMode) print("now $groupNames");
   }
@@ -115,7 +117,7 @@ class CreateKentState extends State<CreateKent> {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       Navigator.of(context).pushNamed('/kent', arguments: groupNames + [fieldCounter.toString()]);
                     } else {
-                      showSnackBar("Wygląda na to, że niektóre nazwy są puste lub po prostu za długie");
+                      showSnackBar("Wygląda na to, że niektóre nazwy są puste lub zbyt długie");
                     }
                   },
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColors.cardRed)),
@@ -151,7 +153,7 @@ class InputRow extends StatelessWidget {
         playerOne = str;
         localInput = '$playerOne i $playerTwo';
         CreateKentState().writeIndex(localInput, rowIndex);
-        if(kDebugMode) if (kDebugMode) print(localInput);
+        if(kDebugMode) print(localInput);
       },
     )),
       Expanded(child:
@@ -163,7 +165,7 @@ class InputRow extends StatelessWidget {
           playerTwo = str;
           localInput = '$playerOne i $playerTwo';
           CreateKentState().writeIndex(localInput, rowIndex);
-          if(kDebugMode) if (kDebugMode) print(localInput);
+          if(kDebugMode) print(localInput);
         },
       )),
     ]));

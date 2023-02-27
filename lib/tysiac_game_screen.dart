@@ -48,43 +48,47 @@ class GameScreenState extends State<GameScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Wyjść bez zapisywania?'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget> [const Text(
-                'Dane gry zostaną utracone, jeśli nie zostały wcześniej zapisane.'),
-            Container(height: 10),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
+              title: const Text('Wyjść bez zapisywania?'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('Nie'),
-              ),
-              TextButton(
-                onPressed: () {
-                  if (roundsCompleting != 1) {
-                    _showSavePrompt();
-                  } else {
-                    showSnackBar("Brak danych do zapisania");
-                  }
-                },
-                child: const Text('Zapisz i wyjdź'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Tak'),
-              ),
-            ])],
-          )),
+                  const Text(
+                      'Dane gry zostaną utracone, jeśli nie zostały wcześniej zapisane.'),
+                  Container(height: 10),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: const Text('Nie'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            if (roundsCompleting != 1) {
+                              Navigator.of(context).pop();
+                              _showSavePrompt();
+                            } else {
+                              showSnackBar("Brak danych do zapisania");
+                            }
+                          },
+                          child: const Text('Zapisz i wyjdź'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: const Text('Tak'),
+                        ),
+                      ])
+                ],
+              )),
         )) ??
         false;
   }
 
   Future<List<String>> _getGamesFromSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedGame = prefs.getStringList("gameFile"); //getstringlist zamiast get żeby rozwiązać List<dynamic>' is not a subtype of type 'FutureOr<List<String>>'
+    final savedGame = prefs.getStringList(
+        "gameFile"); //getstringlist zamiast get żeby rozwiązać List<dynamic>' is not a subtype of type 'FutureOr<List<String>>'
     if (savedGame == null) {
       return [];
     }
@@ -98,29 +102,29 @@ class GameScreenState extends State<GameScreen> {
     await prefs.setStringList("gameFile", currentSaves);
   }
 
-  //DONE: give extra testing cause this could corrupt everything
   Future<void> deleteGames(String timeIndex) async {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getStringList("gameFile");
     if (kDebugMode) print(savedGame);
     List<String> newSavedGame = [];
     savedGame?.forEach((element) {
-      if (kDebugMode) print("we lookin' at:");
-      if (kDebugMode) print(element.substring(element.lastIndexOf('#')+1));
-      if (element.substring(element.lastIndexOf('#')+1) != timeIndex) {
+      if (kDebugMode) print("saving:");
+      if (kDebugMode) print(element.substring(element.lastIndexOf('#') + 1));
+      if (element.substring(element.lastIndexOf('#') + 1) != timeIndex) {
         newSavedGame.add(element);
       } else {
-        if (kDebugMode) print("This boi rejected:");
+        if (kDebugMode) print("Save file rejected:");
         if (kDebugMode) print(element);
       }
     });
-    if (kDebugMode) print("Removing from $savedGame at... I don't really know. Anyway, the new Value is $newSavedGame");
+    if (kDebugMode) print("Removing from $savedGame, the new Value is $newSavedGame");
     await prefs.setStringList("gameFile", newSavedGame);
   }
 
   Future<List<String>> _getStatsFromSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedStats = prefs.getStringList("statFile"); //getstringlist zamiast get żeby rozwiązać List<dynamic>' is not a subtype of type 'FutureOr<List<String>>'
+    final savedStats = prefs.getStringList(
+        "statFile"); //getstringlist zamiast get żeby rozwiązać List<dynamic>' is not a subtype of type 'FutureOr<List<String>>'
     if (savedStats == null) {
       return [];
     }
@@ -165,6 +169,7 @@ class GameScreenState extends State<GameScreen> {
   }
 
   void _showSavePrompt() {
+    //TODO: stateful
     AlertDialog dialog = AlertDialog(
       title: const Text(
         "Zapisz grę",
@@ -304,11 +309,12 @@ class GameScreenState extends State<GameScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
+            child: const Text("anuluj",
+                style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
               if (kDebugMode) print("Saving following scores: $score");
-              addGame(toMyrtaszString(
+              addGame(saveGameEncode(
                   score,
                   roundsCompleting,
                   [playerName[0], playerName[1], playerName[2], playerName[3]],
@@ -316,13 +322,12 @@ class GameScreenState extends State<GameScreen> {
                   playerGiveHistory,
                   selected,
                   (double.parse(playerCount)).toInt(),
-              timeIndex));
+                  timeIndex));
               if (kDebugMode) print("popped");
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.of(context).pushNamed('/tysiąc');
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed("/tysiąc");
             },
             child: const Text("zapisz i wyjdź",
                 style: TextStyle(color: MyColors.azureCyan))),
@@ -341,7 +346,8 @@ class GameScreenState extends State<GameScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
+            child: const Text("anuluj",
+                style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
               if (kDebugMode) print("Analyzing data");
@@ -351,7 +357,6 @@ class GameScreenState extends State<GameScreen> {
               --roundsCompleting;
               score[0].removeLast();
               score[1].removeLast();
-              //makes a mess for sure, but at least it works
               if (double.parse(playerCount) >= 3.0) {
                 score[2].removeLast();
               }
@@ -369,10 +374,9 @@ class GameScreenState extends State<GameScreen> {
                 playerGiveHistory.removeLast();
               });
               Navigator.pop(context);
-              // ignore: invalid_use_of_protected_member
             },
-            child:
-                const Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
+            child: const Text("potwierdź",
+                style: TextStyle(color: MyColors.azureCyan))),
       ],
     );
     showDialog(context: context, builder: (_) => dialog);
@@ -399,7 +403,8 @@ class GameScreenState extends State<GameScreen> {
               SizedBox(
                   width: MediaQuery.of(context).size.width /
                       double.parse(playerCount) *
-                      2/3,
+                      2 /
+                      3,
                   child: Text(
                     playerName[0],
                     textAlign: TextAlign.center,
@@ -409,7 +414,8 @@ class GameScreenState extends State<GameScreen> {
                   height: 50,
                   width: MediaQuery.of(context).size.width /
                       double.parse(playerCount) *
-                      2/3,
+                      2 /
+                      3,
                   child: TextField(
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), hintText: "0"),
@@ -436,7 +442,8 @@ class GameScreenState extends State<GameScreen> {
               SizedBox(
                   width: MediaQuery.of(context).size.width /
                       double.parse(playerCount) *
-                      2/3,
+                      2 /
+                      3,
                   child: Text(
                     playerName[1],
                     textAlign: TextAlign.center,
@@ -446,7 +453,8 @@ class GameScreenState extends State<GameScreen> {
                   height: 50,
                   width: MediaQuery.of(context).size.width /
                       double.parse(playerCount) *
-                      2/3,
+                      2 /
+                      3,
                   child: TextField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -486,7 +494,8 @@ class GameScreenState extends State<GameScreen> {
                         height: 50,
                         width: MediaQuery.of(context).size.width /
                             double.parse(playerCount) *
-                            2/3,
+                            2 /
+                            3,
                         child: TextField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -517,7 +526,8 @@ class GameScreenState extends State<GameScreen> {
                     SizedBox(
                         width: MediaQuery.of(context).size.width /
                             double.parse(playerCount) *
-                            2/3,
+                            2 /
+                            3,
                         child: Text(
                           playerName[3],
                           textAlign: TextAlign.center,
@@ -527,7 +537,8 @@ class GameScreenState extends State<GameScreen> {
                         height: 50,
                         width: MediaQuery.of(context).size.width /
                             double.parse(playerCount) *
-                            2/3,
+                            2 /
+                            3,
                         child: TextField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -555,7 +566,6 @@ class GameScreenState extends State<GameScreen> {
                 : const SizedBox(width: 0, height: 0)
           ],
         ),
-        //przepraszam, mamo
         Text(playerGiving[0]
             ? "${playerName[0]} daje po 60. Pola tekstowe nie będą brane pod uwagę."
             : (playerGiving[1]
@@ -577,7 +587,8 @@ class GameScreenState extends State<GameScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
+            child: const Text("anuluj",
+                style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
               if (kDebugMode) print(score);
@@ -597,7 +608,6 @@ class GameScreenState extends State<GameScreen> {
                   playerGiveRemaining[1] == 0 && playerGiving[1] ||
                   playerGiveRemaining[2] == 0 && playerGiving[2] ||
                   playerGiveRemaining[3] == 0 && playerGiving[3]) {
-                if (kDebugMode) print("Intercepted");
                 errorText = "Ten gracz nie może już więcej dawać po 60";
                 Navigator.pop(context);
                 _showAlert();
@@ -609,19 +619,6 @@ class GameScreenState extends State<GameScreen> {
                 Navigator.pop(context);
                 _showAlert();
               }
-              // else if (int.parse(playerOneAdd).abs() <= 4 &&
-              //     int.parse(playerTwoAdd).abs() <= 4 &&
-              //     int.parse(playerThreeAdd).abs() <= 4 &&
-              //     int.parse(playerFourAdd).abs() <= 4 &&
-              //     playerGiving[0] == false &&
-              //     playerGiving[1] == false &&
-              //     playerGiving[2] == false &&
-              //     playerGiving[3] == false) {
-              //   errorText =
-              //       "Co najmniej jeden gracz musiał zdobyć lub stracić punkty";
-              //   Navigator.pop(context);
-              //   _showAlert();
-              // }
               else if ((sumAll(score[0]) >= 900 &&
                           int.parse(playerOneAdd) > 0 &&
                           int.parse(playerOneAdd) < 100 ||
@@ -644,17 +641,21 @@ class GameScreenState extends State<GameScreen> {
                       playerThreeAdd +
                       playerFourAdd);
                 }
+                //TODO: error -> warning (snackbar), nie przypisywać!!!
                 errorText =
                     "Kiedy suma punktów gracza przekracza 900, może on zdobyć punkty tylko poprzez wygranie rundy, w której był rozgrywającym.";
                 Navigator.pop(context);
                 _showAlert();
-              } else if ((int.parse(playerOneAdd).abs() > 300 && int.parse(playerOneAdd).abs() != 1000) ||
-              (int.parse(playerTwoAdd).abs() > 300 && int.parse(playerTwoAdd).abs() != 1000)  ||
-              (int.parse(playerThreeAdd).abs() > 300 && int.parse(playerThreeAdd).abs() != 1000)  ||
-              (int.parse(playerFourAdd).abs() > 300) && int.parse(playerFourAdd).abs() != 1000)  {
+              } else if ((int.parse(playerOneAdd).abs() > 300 &&
+                      int.parse(playerOneAdd).abs() != 1000) ||
+                  (int.parse(playerTwoAdd).abs() > 300 &&
+                      int.parse(playerTwoAdd).abs() != 1000) ||
+                  (int.parse(playerThreeAdd).abs() > 300 &&
+                      int.parse(playerThreeAdd).abs() != 1000) ||
+                  (int.parse(playerFourAdd).abs() > 300) &&
+                      int.parse(playerFourAdd).abs() != 1000) {
                 errorText =
                     "Największa możliwa liczba punktów do zdobycia to 300";
-
                 Navigator.pop(context);
                 _showAlert();
               } else {
@@ -786,12 +787,13 @@ class GameScreenState extends State<GameScreen> {
                 }
                 Navigator.pop(context);
                 if (kDebugMode) print(rounds);
+                //TODO: tego nie powinno tutaj być
                 // ignore: invalid_use_of_protected_member
                 (context as Element).reassemble();
               }
             },
-            child:
-                const Text("potwierdź", style: TextStyle(color: MyColors.azureCyan))),
+            child: const Text("potwierdź",
+                style: TextStyle(color: MyColors.azureCyan))),
       ],
     );
     showDialog(context: context, builder: (_) => dialog);
@@ -799,9 +801,7 @@ class GameScreenState extends State<GameScreen> {
 
   @override
   void initState() {
-    //read settings - czy autoDelete = true?
     readBool('autoDelete');
-
     if (widget.data[0] != '-1') {
       playerCount = widget.data[0];
       playerName = [
@@ -819,8 +819,7 @@ class GameScreenState extends State<GameScreen> {
         int.parse(double.parse(playerGive).round().toString()),
       ];
     } else {
-      //problem z przypisaniem po migracji? użyj decoded[i] as List<int> jako jawne rzutowanie
-      List<Object> decoded = myrtaszDecode(widget.data[1]);
+      List<Object> decoded = saveGameDecode(widget.data[1]);
       score = decoded[1] as List<List<int>>;
       playerCount = decoded[5].toString();
       playerName = decoded[2] as List<String>;
@@ -829,12 +828,11 @@ class GameScreenState extends State<GameScreen> {
       roundsCompleting = decoded[6] as int;
       timeIndex = decoded[7] as String;
       if (kDebugMode) print("Will now render for $score");
-      rounds.add(ScoreRow(
-          1, score[0][0], score[1][0], score[2][0], score[3][0], decoded[5] as int));
+      rounds.add(ScoreRow(1, score[0][0], score[1][0], score[2][0], score[3][0],
+          decoded[5] as int));
       for (int i = 1; i < roundsCompleting - 1; i++) {
         if (kDebugMode) print(i);
         for (int j = 0; j < i; j++) {
-          //ostra czy słaba?
           renderingScores[0] += score[0][j];
           renderingScores[1] += score[1][j];
           renderingScores[2] += score[2][j];
@@ -999,7 +997,9 @@ class GameScreenState extends State<GameScreen> {
                                   bottom: BorderSide(
                                       width: 3, color: Colors.black54),
                                 )),
-                                child: Center(child: Text(playerName[0], textAlign: TextAlign.center)))),
+                                child: Center(
+                                    child: Text(playerName[0],
+                                        textAlign: TextAlign.center)))),
                         Expanded(
                             flex: 3,
                             child: Container(
@@ -1011,7 +1011,9 @@ class GameScreenState extends State<GameScreen> {
                                   bottom: BorderSide(
                                       width: 3, color: Colors.black54),
                                 )),
-                                child: Center(child: Text(playerName[1], textAlign: TextAlign.center)))),
+                                child: Center(
+                                    child: Text(playerName[1],
+                                        textAlign: TextAlign.center)))),
                         double.parse(playerCount) >= 3.0
                             ? Expanded(
                                 flex: 3,
@@ -1024,7 +1026,9 @@ class GameScreenState extends State<GameScreen> {
                                       bottom: BorderSide(
                                           width: 3, color: Colors.black54),
                                     )),
-                                    child: Center(child: Text(playerName[2], textAlign: TextAlign.center))))
+                                    child: Center(
+                                        child: Text(playerName[2],
+                                            textAlign: TextAlign.center))))
                             : const SizedBox(width: 0, height: 0),
                         double.parse(playerCount) == 4.0
                             ? Expanded(
@@ -1038,7 +1042,9 @@ class GameScreenState extends State<GameScreen> {
                                       bottom: BorderSide(
                                           width: 3, color: Colors.black54),
                                     )),
-                                    child: Center(child: Text(playerName[3], textAlign: TextAlign.center))))
+                                    child: Center(
+                                        child: Text(playerName[3],
+                                            textAlign: TextAlign.center))))
                             : const SizedBox(width: 0, height: 0)
                       ],
                     )),
@@ -1064,14 +1070,11 @@ class GameScreenState extends State<GameScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Expanded(child:
-                                    Text(
-                                        "Rozdaje ${playerName[(roundsCompleting - 1) %
-                                                int.parse(
-                                                    double.parse(playerCount)
-                                                        .round()
-                                                        .toString())]}",
-                                        textAlign: TextAlign.center, overflow: TextOverflow.clip)),
+                                    Expanded(
+                                        child: Text(
+                                            "Rozdaje ${playerName[(roundsCompleting - 1) % int.parse(double.parse(playerCount).round().toString())]}",
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.clip)),
                                     Row(children: <Widget>[
                                       IconButton(
                                           icon: const Icon(Icons.delete),
@@ -1104,8 +1107,13 @@ class GameScreenState extends State<GameScreen> {
                                 child: ElevatedButton(
                                 onPressed: () {
                                   _showAlert();
-                                  if (kDebugMode) print(playerGiving[0]);
-                                  if (kDebugMode) print(MediaQuery.of(context).size.width);
+                                  if (kDebugMode) {
+                                    print(playerGiving[0]);
+                                    print(MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width);
+                                  }
                                 },
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
@@ -1115,12 +1123,22 @@ class GameScreenState extends State<GameScreen> {
                             : Expanded(
                                 child: ElevatedButton(
                                 onPressed: () {
-                                  addStat(jsonEncode(StatRow((double.parse(playerCount)).toInt(), playerName[0], playerName[1], playerName[2], playerName[3], playerName[winner])));
+                                  addStat(jsonEncode(StatRow(
+                                      (double.parse(playerCount)).toInt(),
+                                      playerName[0],
+                                      playerName[1],
+                                      playerName[2],
+                                      playerName[3],
+                                      playerName[winner])));
                                   if (kDebugMode) print("Added ${jsonEncode(StatRow((double.parse(playerCount)).toInt(), playerName[0], playerName[1], playerName[2], playerName[3], playerName[winner]))}");
-                                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                                  Navigator.popUntil(
+                                      context, ModalRoute.withName('/'));
                                   Navigator.of(context).pushNamed('/');
-                                  if (kDebugMode) print("Will now try and delete corresponding save files");
-                                  if (kDebugMode) print("Autodelete: ${settings.autoDelete}");
+                                  if (kDebugMode) {
+                                    print(
+                                        "Will now try and delete corresponding save files");
+                                    print("Autodelete: ${settings.autoDelete}");
+                                  }
                                   //usunięcie wszystkich odpowiadających plików z zapisem
                                   if (settings.autoDelete) {
                                     if (kDebugMode) print("Running deleteGames");
@@ -1132,7 +1150,8 @@ class GameScreenState extends State<GameScreen> {
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         MyColors.highlightOrange)),
-                                child: Text("${playerName[winner]} wygrywa! Wciśnij, aby zakończyć."),
+                                child: Text(
+                                    "${playerName[winner]} wygrywa! Wciśnij, aby zakończyć."),
                               )),
                       ])),
             ],
@@ -1150,7 +1169,8 @@ class ScoreRow extends StatelessWidget {
   final int playerCount;
 
   const ScoreRow(this.round, this.playerOneScore, this.playerTwoScore,
-      this.playerThreeScore, this.playerFourScore, this.playerCount, {super.key});
+      this.playerThreeScore, this.playerFourScore, this.playerCount,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -1197,7 +1217,8 @@ class ScoreRow extends StatelessWidget {
                           left: BorderSide(width: 3, color: Colors.black54),
                           bottom: BorderSide(width: 3, color: Colors.black54),
                         )),
-                        child: Center(child: Text(playerThreeScore.toString()))))
+                        child:
+                            Center(child: Text(playerThreeScore.toString()))))
                 : const SizedBox(width: 0, height: 0),
             playerCount == 4
                 ? Expanded(
@@ -1218,104 +1239,6 @@ class ScoreRow extends StatelessWidget {
 
 class AppSettings {
   bool autoDelete;
+
   AppSettings({this.autoDelete = false});
 }
-
-//TODO: zmienić w JSON
-//deserializacja
-List<Object> myrtaszDecode(String myrtaszString) {
-  if (kDebugMode) print(myrtaszString);
-  List<String> firstInstance = myrtaszString.split('#');
-  if (kDebugMode) print(firstInstance);
-  if (kDebugMode) print("The first instance ^");
-  int color = int.parse(firstInstance[0]);
-  List<String> placeHolder = firstInstance[1].split(' ');
-  List<List<int>> scoreRead = [[], [], [], []];
-  for (int x = 0; x <= 3; x++) {
-    placeHolder.forEach((element) {
-      if (element.isNotEmpty) {
-        scoreRead[x].add(int.parse(element));
-      }
-    });
-    placeHolder = firstInstance[x + 2].split(' ');
-  }
-  List<String> playerNames = firstInstance[5].split('+');
-  placeHolder = firstInstance[6].split(' ');
-  List<int> playerGiveRemainingRead = [];
-  placeHolder.forEach((element) {
-    if (element.isNotEmpty) {
-      if (kDebugMode) print(element);
-      playerGiveRemainingRead.add(int.parse(element));
-    }
-  });
-  List<int> playerGiveHistoryRead = [];
-  placeHolder = firstInstance[7].split(' ');
-  placeHolder.forEach((element) {
-    if (element.isNotEmpty) {
-      playerGiveHistoryRead.add(int.parse(element));
-    }
-  });
-  int playerCountRead = int.parse(firstInstance[8]);
-  int roundCount = int.parse(firstInstance[9]);
-  String timeIndex = firstInstance[10];
-  return [
-    color,
-    scoreRead,
-    playerNames,
-    playerGiveRemainingRead,
-    playerGiveHistoryRead,
-    playerCountRead,
-    roundCount,
-    timeIndex
-  ];
-}
-
-//TODO: zmienić w JSON
-//serializacja
-String toMyrtaszString(
-    List<List<int>> score,
-    int roundsCompleting,
-    List<String> playerNames,
-    List<int> playerGiveRemaining,
-    List<int> playerGiveHistory,
-    int color,
-    int playerCount,
-    String timeIndex) {
-  String myrtaszString = '$color#';
-  for (int x = 0; x <= 3; x++) {
-    if (kDebugMode) print("running for $x");
-    score[x].forEach((subElement) {
-      myrtaszString += '$subElement ';
-    });
-    myrtaszString += '#';
-  }
-  playerNames.forEach((element) {
-    myrtaszString += '$element+';
-  });
-  myrtaszString = myrtaszString.substring(0, myrtaszString.length - 1);
-  myrtaszString += '#';
-  playerGiveRemaining.forEach((element) {
-    myrtaszString += '$element ';
-  });
-  myrtaszString += '#';
-  playerGiveHistory.forEach((element) {
-    myrtaszString += '$element ';
-  });
-  myrtaszString += '#';
-  myrtaszString += playerCount.toString();
-  myrtaszString += '#';
-  myrtaszString += roundsCompleting.toString();
-  myrtaszString += '#';
-  myrtaszString += timeIndex.toString();//timeIndex MUSI być ostatni, opiera się na tym działanie usuwania
-  if (kDebugMode) print('Blended game data into the following myrtaszString: $myrtaszString');
-  return myrtaszString;
-}
-
-sumAll(List<int> listName) {
-  int sum = 0;
-  listName.forEach((element) {
-    sum += element;
-  });
-  return sum;
-}
-//TODO: przypisanie dla gracza >900 error -> warning

@@ -114,5 +114,3 @@ class FirstPage extends StatelessWidget {
     );
   }
 }
-
-//TODO: Integrate with GitHub
