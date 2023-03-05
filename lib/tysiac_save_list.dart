@@ -198,9 +198,11 @@ class TysiacState extends State<Tysiac> {
             child: const Text("anuluj", style: TextStyle(color: MyColors.azureCyan))),
         TextButton(
             onPressed: () {
-              if (kDebugMode) print(gameButtons);
-              if (kDebugMode) print("removing at $gameIndex");
-              if (kDebugMode) print(gameButtons.length);
+              if (kDebugMode) {
+                print(gameButtons);
+                print("removing at $gameIndex");
+                print(gameButtons.length);
+              }
               gameButtons.removeAt(gameIndex);
               deleteGame(gameIndex);
             },

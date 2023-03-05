@@ -14,7 +14,7 @@ class _TysiacSettings extends State<TysiacSettings> {
 
   @override
   void initState() {
-
+    //TODO: default
     readBool('autoDelete');
     if (settings.autoDelete == null) {
       settings.autoDelete = false;

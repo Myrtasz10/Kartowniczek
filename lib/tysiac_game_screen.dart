@@ -761,7 +761,6 @@ class GameScreenState extends State<GameScreen> {
                       sumAll(score[3]),
                       int.parse(double.parse(playerCount).round().toString())));
                 });
-
                 Future.delayed(const Duration(milliseconds: 250), () {
                   if (kDebugMode) print("Scrolling at 0");
                   scoreListController
